@@ -1,0 +1,17 @@
+FROM python:3.13-slim-bookworm
+
+ARG USER_ID=1000
+ARG GROUP_ID=1000
+
+ENV USERNAME servo
+ENV WORKPATH /opt/workdir
+
+RUN addgroup --gid ${GROUP_ID} $USERNAME
+RUN adduser --uid ${USER_ID} --gid ${GROUP_ID} --disabled-password --gecos '' $USERNAME
+
+WORKDIR $WORKPATH
+RUN chown -R ${USER_ID}:${GROUP_ID} .
+RUN pip install Django
+USER $USERNAME
+
+CMD ["/bin/true"]

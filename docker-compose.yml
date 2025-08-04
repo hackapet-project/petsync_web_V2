@@ -1,0 +1,59 @@
+services:
+  front:
+    build:
+      context: ./front
+      # target: build
+      # host: true
+      # env_file:
+      #   - .env
+    ports:
+      - 4200:4200
+    volumes:
+      # - frontend_build:/opt/workdir/dist/angular
+      - front_modules:/opt/workdir/node_modules
+      - type: bind
+        source: ./front
+        target: /opt/workdir
+      # command: sh
+  django_scaffolder:
+        build:
+          context: .
+          dockerfile: Dockerfile.django
+        volumes:
+          - type: bind
+            source: .
+            target: /opt/workdir
+
+  angular_scaffolder:
+    build:
+      context: .
+      dockerfile: Dockerfile.angular
+    volumes:
+      - type: bind
+        source: .
+        target: /opt/workdir
+  back:
+    build:
+      context: ./back
+    env_file:
+      - .env
+    ports:
+      - 9000:9000
+    volumes:
+      - type: bind
+        source: ./back
+        target: /opt/workdir
+    environment:
+      # - DJANGO_SETTINGS_MODULE=core.settings.${DJANGO_ENV}
+      - DJANGO_SETTINGS_MODULE=core.settings
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_HOST=${POSTGRES_HOST}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+      - PYTHONUNBUFFERED=1
+    # depends_on:
+    #   - postgres
+
+volumes:
+  front_modules:
