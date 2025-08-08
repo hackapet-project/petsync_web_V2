@@ -7,6 +7,12 @@ down:
 build:
 	docker compose build
 
+create_app:
+	docker compose run --rm back python ./manage.py startapp ${i}
+
+test_back:
+	docker compose run --rm back pytest
+
 angular_scaffolder:
 	docker compose run --rm angular_scaffolder ng new ${i}
 
