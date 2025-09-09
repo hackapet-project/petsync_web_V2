@@ -18,3 +18,10 @@ angular_scaffolder:
 
 django_scaffolder:
 	docker compose run --rm django_scaffolder django-admin startproject core ./back
+
+migrations:
+	docker compose run --rm back python manage.py makemigrations
+	docker compose run --rm back python manage.py migrate
+
+migrate:
+	docker compose run --rm back python manage.py migrate

@@ -1,7 +1,7 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin #type: ignore
 from django.db import models #type: ignore
-from shelter import Shelter
-import generate_ulid
+from .shelter import Shelter
+from .generate_ulid import generate_ulid
 
 import json
 

@@ -1,5 +1,6 @@
 from django.db import models #type: ignore
-import generate_ulid
+from .generate_ulid import generate_ulid
+
 
 class Shelter(models.Model):
     shelter_id = models.CharField(

@@ -1,6 +1,6 @@
 from django.db import models #type: ignore
-import generate_ulid
-from choices.animal_choices import ANIMAL_STATUS_CHOICES
+from .choices.animal_choices import ANIMAL_STATUS_CHOICES
+from .generate_ulid import generate_ulid
 
 class Animal(models.Model):
     STATUS = ANIMAL_STATUS_CHOICES
@@ -16,6 +16,6 @@ class Animal(models.Model):
         default='rescued'
     )
 
-    name = models.CharField(max_lenght=100)
+    name = models.CharField(max_length=100)
     breed = models.CharField(max_length=100)
     chip = models.CharField(max_length=15)
