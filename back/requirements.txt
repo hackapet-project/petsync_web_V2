@@ -1,7 +1,7 @@
-Django==5.1.7
+Django>=5.1.10
 django-cors-headers==4.7.0
 djangorestframework==3.16.0
-djangorestframework-simplejwt==5.5.0
+djangorestframework-simplejwt>=5.5.1
 
 pytest==8.3.5
 pytest-django==4.11.1
