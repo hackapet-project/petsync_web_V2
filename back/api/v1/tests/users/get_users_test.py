@@ -1,4 +1,8 @@
+import pytest #type: ignore
+
 class TestGetUsers():
+
+    @pytest.mark.django_db
     def test_get_a_list_of_users(self, client):
         # Arrange
         uri = '/v1/users/'
@@ -16,4 +20,5 @@ class TestGetUsers():
         response = client.get(uri)
         # Assert
         assert response.status_code == 200
+        assert response.data.length != 0
         # assert response.data.lenght == 0

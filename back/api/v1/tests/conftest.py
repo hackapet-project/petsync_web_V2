@@ -1,15 +1,12 @@
-from django.contrib.auth import get_user_model #type: ignore
+# from django.contrib.auth import get_user_model #type: ignore
 from rest_framework.test import APIClient #type: ignore
 from rest_framework_simplejwt.tokens import AccessToken #type: ignore
+
 import pytest #type: ignore
 
 @pytest.fixture
 def api_client():
     return APIClient()
-
-@pytest.fixture
-def conversation_factory(db):
-    pass
 
 # @pytest.mark.django_db
 @pytest.fixture
@@ -18,7 +15,7 @@ def user_factory(db):
         email='foo@bar.test',
         password='test',
         name='Foo',
-        #company='FooBar',
+        shelter='FooBar',
         #position='FooBar Developer',
         #summary='A very long summary',
         #description='A well writed description'
@@ -36,6 +33,27 @@ def user_factory(db):
             #description=description,
         )
     return _make_user
+
+@pytest.fixture
+def shelter_factory(db):
+    def _make_shelter(**overrides):
+
+        defaults = {
+            name:'Foo Shelter',
+            email:'contact@foo.test',
+            country : 'ES',
+            city : 'Valencia',
+            phone : '000000000',
+            website: 'https://www.fooshelter.com',
+            #position='FooBar Developer',
+            #summary='A very long summary',
+            description='A well writed description'
+
+        }
+
+        defaults.update(overrides)
+        return Shelter.objects.create(**defaults)
+    return _make_shelter
 
 @pytest.fixture
 def auth_client(user_factory):
