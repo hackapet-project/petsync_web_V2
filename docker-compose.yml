@@ -55,5 +55,12 @@ services:
     # depends_on:
     #   - postgres
 
+  adminer:
+    # networks:
+    #     - web
+    image: adminer
+    ports:
+      - "0.0.0.0:10000:8080"
+
 volumes:
   front_modules:
