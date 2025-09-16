@@ -47,7 +47,7 @@ def shelter_factory(db):
             website: 'https://www.fooshelter.com',
             #position='FooBar Developer',
             #summary='A very long summary',
-            description='A well writed description'
+            description:'A well writed description'
 
         }
 
