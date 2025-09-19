@@ -1,21 +1,49 @@
-# from django.contrib.auth import get_user_model #type: ignore
+from django.contrib.auth import get_user_model #type: ignore
 from rest_framework.test import APIClient #type: ignore
 from rest_framework_simplejwt.tokens import AccessToken #type: ignore
 
+from api.models.shelter import Shelter
 import pytest #type: ignore
 
 @pytest.fixture
 def api_client():
     return APIClient()
 
+@pytest.fixture
+def default_shelter(db):
+    shelter, _ = Shelter.objects.get_or_create(
+        email="contact@foo.test",
+        defaults={
+            'name': 'Foo Shelter',
+            'country': 'ES',
+            'city': 'Valencia',
+            'phone': '000000000',
+            'website': 'https://www.fooshelter.com',
+            'description': 'A well written description',
+        }
+    )
+    return shelter
+
+@pytest.fixture
+def default_user(db, default_shelter):
+    User = get_user_model()
+    user, _ = User.objects.get_or_create(
+        email="foo@bar.test",   # <- unique
+        defaults={
+            "name": "Foo",
+            "password": "test",  # will be set via create_user
+            "shelter": default_shelter,
+        },
+    )
+    return user
 # @pytest.mark.django_db
 @pytest.fixture
-def user_factory(db):
+def user_factory(db, default_shelter):
     def _make_user(
         email='foo@bar.test',
         password='test',
         name='Foo',
-        shelter='FooBar',
+        shelter=None,
         #position='FooBar Developer',
         #summary='A very long summary',
         #description='A well writed description'
@@ -23,10 +51,14 @@ def user_factory(db):
 
         User = get_user_model()
 
+        if shelter is None:
+            shelter = default_shelter
+
         return User.objects.create_user(
             name=name,
             email=email,
             password=password,
+            shelter=shelter,
             #company=company,
             #position=position,
             #summary=summary,
@@ -39,16 +71,15 @@ def shelter_factory(db):
     def _make_shelter(**overrides):
 
         defaults = {
-            name:'Foo Shelter',
-            email:'contact@foo.test',
-            country : 'ES',
-            city : 'Valencia',
-            phone : '000000000',
-            website: 'https://www.fooshelter.com',
+            'name':'Foo Shelter',
+            'email':'contact@foo.test',
+            'country' : 'ES',
+            'city' : 'Valencia',
+            'phone' : '000000000',
+            'website': 'https://www.fooshelter.com',
             #position='FooBar Developer',
             #summary='A very long summary',
-            description:'A well writed description'
-
+            'description':'A well writed description'
         }
 
         defaults.update(overrides)
