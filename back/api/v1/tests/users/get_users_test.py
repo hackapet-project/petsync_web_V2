@@ -15,6 +15,14 @@ class TestGetUsers():
         # self.assertEqual(True, False)
         # assert response.data.lenght == 0
 
+    @pytest.mark.django_db
+    def test_return_404_when_no_user_was_found(self, client):
+        url = '/v1/users/an-invalid-user-id/'
+
+        res = client.get(url)
+
+        assert res.status_code == status.HTTP_404_NOT_FOUND
+
     def test_get_a_detailed_user_view(self, auth_client, default_user):
         user = default_user
         url = reverse("User detail", kwargs={"user_id": user.user_id})

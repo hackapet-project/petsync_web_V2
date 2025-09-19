@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404 #type: ignore
 from rest_framework.views import APIView #type: ignore
 from api.models.user import User as user_model
 from ..serializer import UserSerializer
@@ -11,11 +12,7 @@ class User(APIView):
         if not user_id:
             return responses[BAD_REQUEST]({'message': 'bad request'})
         
-        user_found = user_model.objects.get(user_id=user_id)
-
-        if not user_found:
-            return responses[NOT_FOUND]({'message': 'User not found'})
-        
+        user_found = get_object_or_404(user_model, user_id=user_id)
         serialized = UserSerializer(user_found)
 
         return responses[OK](serialized.data)
