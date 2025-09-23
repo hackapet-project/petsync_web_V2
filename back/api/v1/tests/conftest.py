@@ -3,6 +3,7 @@ from rest_framework.test import APIClient #type: ignore
 from rest_framework_simplejwt.tokens import AccessToken #type: ignore
 
 from api.models.shelter import Shelter
+# from api.models.user import User
 import pytest #type: ignore
 
 @pytest.fixture
@@ -59,10 +60,6 @@ def user_factory(db, default_shelter):
             email=email,
             password=password,
             shelter=shelter,
-            #company=company,
-            #position=position,
-            #summary=summary,
-            #description=description,
         )
     return _make_user
 
