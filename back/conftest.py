@@ -33,7 +33,7 @@ def test_data_setup(db, shelter_factory, user_factory):
     admin = user_factory(
         email="admin@test.com",
         name="Admin User",
-        shelter=shelter1,
+        # shelter=shelter1,
         role="ADMIN"
     )
 
