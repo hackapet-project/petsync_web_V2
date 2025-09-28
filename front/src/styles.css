@@ -1,1 +1,13 @@
+/* CSS Reset - Remove default margin and padding */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 /* You can add global styles to this file, and also import other style files */
