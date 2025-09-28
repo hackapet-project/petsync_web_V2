@@ -74,8 +74,9 @@ export class LoginComponent implements OnInit, OnDestroy {
         password: this.loginForm.value.password
       };
 
-      // Console log for e2e testing
-      console.log('Login attempt:', credentials);
+      // DO NOT log credentials including passwords
+      // For e2e testing, you may log the email address only (if needed):
+      // console.log('Login attempt for email:', credentials.email);
 
       this.authService.login(credentials).pipe(
         takeUntil(this.destroy$)
