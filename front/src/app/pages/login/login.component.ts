@@ -83,7 +83,6 @@ export class LoginComponent implements OnInit, OnDestroy {
       ).subscribe({
         next: (response) => {
           if (response.success) {
-            console.log('Login successful');
             // TODO: Navigate to dashboard or intended page
           } else if (response.error) {
             this.errorSignal.set(response.error);
@@ -112,14 +111,11 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.errorSignal.set(null);
 
     // Console log for e2e testing
-    console.log('Google OAuth login initiated');
-
     this.authService.loginWithGoogle().pipe(
       takeUntil(this.destroy$)
     ).subscribe({
       next: (response) => {
         if (response.success) {
-          console.log('Google login successful');
           // TODO: Navigate to dashboard or intended page
         } else if (response.error) {
           this.errorSignal.set(response.error);
