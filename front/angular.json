@@ -54,6 +54,9 @@
         },
         "serve": {
           "builder": "@angular/build:dev-server",
+          "options": {
+            "allowedHosts": ["refupet.org"]
+          },
           "configurations": {
             "production": {
               "buildTarget": "front:build:production"
