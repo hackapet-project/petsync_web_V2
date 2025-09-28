@@ -1,4 +1,4 @@
-FROM node:22-bookworm-slim as build
+FROM node:22-bookworm-slim
 
 ENV USERNAME=node
 ENV WORKPATH=/opt/workdir
@@ -10,7 +10,7 @@ RUN usermod -g ${GROUP_ID} ${USERNAME}
 
 WORKDIR ${WORKPATH}
 COPY --chown=${USERNAME}:${USERNAME} package*.json ./
-copy . .
+COPY . .
 RUN chown -R ${USER_ID}:${GROUP_ID} ${WORKPATH}
 RUN npm install
 RUN npm install -g @angular/cli

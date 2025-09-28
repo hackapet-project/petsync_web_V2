@@ -3,3 +3,16 @@ node_modules
 venv
 __pycache__
 docker-compose.override.yml
+
+# IDE files
+.vscode/
+.idea/
+
+# Test reports
+coverage/
+test-results/
+playwright-report/
+
+# Claude Code files
+CLAUDE.md
+.claude/
