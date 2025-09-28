@@ -3,7 +3,91 @@ from rest_framework.test import APIClient #type: ignore
 from rest_framework_simplejwt.tokens import AccessToken #type: ignore
 
 from api.models.shelter import Shelter
+# from api.models.user import User
 import pytest #type: ignore
+
+# pytest_plugins = [
+#     "api.v1.tests.utils.test_data_setup",
+# ]
+
+@pytest.fixture  
+def authenticated_clients(test_data_setup):
+    """Create authenticated API clients for each user type"""
+    users = test_data_setup['users']
+    clients = {}
+    
+    for role, user in users.items():
+        client = APIClient()
+        client.force_authenticate(user=user)
+        clients[role] = client
+        
+    return clients
+
+@pytest.fixture
+def test_data_setup(db, shelter_factory, user_factory):
+    """
+    Creates a complete test data setup with multiple shelters and users
+    This fixture can be extracted to a separate utility for performance
+    """
+    # Create multiple shelters
+    shelter1 = shelter_factory(
+        name="Happy Paws Shelter",
+        email="happypaws@test.com",
+        city="Barcelona"
+    )
+
+    shelter2 = shelter_factory(
+        name="Rescue Haven",
+        email="rescuehaven@test.com",
+        city="Madrid"
+    )
+
+    # Create users with different roles
+    admin = user_factory(
+        email="admin@test.com",
+        name="Admin User",
+        # shelter=shelter1,
+        role="ADMIN"
+    )
+
+    moderator1 = user_factory(
+        email="mod1@test.com",
+        name="Moderator One",
+        shelter=shelter1,
+        role="MODERATOR"
+    )
+
+    moderator2 = user_factory(
+        email="mod2@test.com",
+        name="Moderator Two",
+        shelter=shelter2,
+        role="MODERATOR"
+    )
+
+    user1 = user_factory(
+        email="user1@test.com",
+        name="Regular User One",
+        shelter=shelter1,
+        role="USER"
+    )
+
+    user2 = user_factory(
+        email="user2@test.com",
+        name="Regular User Two",
+        shelter=shelter2,
+        role="USER"
+    )
+
+    return {
+        'shelters': {'shelter1': shelter1, 'shelter2': shelter2},
+        'users': {
+            'admin': admin,
+            'moderator1': moderator1,
+            'moderator2': moderator2,
+            'user1': user1,
+            'user2': user2
+        }
+    }
 
 @pytest.fixture
 def api_client():
@@ -44,6 +128,7 @@ def user_factory(db, default_shelter):
         password='test',
         name='Foo',
         shelter=None,
+        role=None
         #position='FooBar Developer',
         #summary='A very long summary',
         #description='A well writed description'
@@ -53,16 +138,15 @@ def user_factory(db, default_shelter):
 
         if shelter is None:
             shelter = default_shelter
+        if role is None:
+            role='USER'
 
         return User.objects.create_user(
             name=name,
             email=email,
             password=password,
             shelter=shelter,
-            #company=company,
-            #position=position,
-            #summary=summary,
-            #description=description,
+            role=role
         )
     return _make_user
 

@@ -5,11 +5,11 @@ import pytest #type: ignore
 class TestGetUsers():
 
     @pytest.mark.django_db
-    def test_get_a_list_of_users(self, client):
+    def test_get_a_list_of_users(self, authenticated_clients):
         # Arrange
         uri = '/v1/users/'
         # Act
-        response = client.get(uri)
+        response = authenticated_clients['admin'].get(uri)
         # Assert
         assert response.status_code == 200
         # self.assertEqual(True, False)

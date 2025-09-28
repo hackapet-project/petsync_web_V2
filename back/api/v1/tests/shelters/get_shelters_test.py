@@ -1,9 +1,9 @@
 class TestGetShelters():
-    def test_get_a_list_of_shelters(self, client):
+    def test_get_a_list_of_shelters(self, authenticated_clients):
         # Arrange
         uri = '/v1/shelters/'
         # Act
-        response = client.get(uri)
+        response = authenticated_clients['admin'].get(uri)
         # Assert
         assert response.status_code == 200
         # self.assertEqual(True, False)
