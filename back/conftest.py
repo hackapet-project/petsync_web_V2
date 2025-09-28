@@ -10,6 +10,19 @@ import pytest #type: ignore
 #     "api.v1.tests.utils.test_data_setup",
 # ]
 
+@pytest.fixture  
+def authenticated_clients(test_data_setup):
+    """Create authenticated API clients for each user type"""
+    users = test_data_setup['users']
+    clients = {}
+    
+    for role, user in users.items():
+        client = APIClient()
+        client.force_authenticate(user=user)
+        clients[role] = client
+        
+    return clients
+
 @pytest.fixture
 def test_data_setup(db, shelter_factory, user_factory):
     """
