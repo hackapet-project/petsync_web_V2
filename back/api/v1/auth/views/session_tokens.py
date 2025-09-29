@@ -5,7 +5,7 @@ from rest_framework.views import APIView #type: ignore
 from rest_framework.response import Response #type:ignore
 from rest_framework import status #type:ignore
 
-from api.utils.custom_reponses import get_responses, OK, BAD_REQUEST
+from api.utils.custom_reponses import get_responses, OK, BAD_REQUEST, UNAUTHORIZED
 from api.utils.repositories.user_repository import UserRepository
 from api.utils.auth.token_authenticator import TokenAuthenticator
 
@@ -27,7 +27,7 @@ class SessionTokens(APIView):
         if not email or not password:
             return responses[BAD_REQUEST]({'error': 'Email and password are required'})
             
-        user = authenticate(request, username=email, password=password)
+        user = authenticate(username=email, password=password)
         # user = user_repository.authenticate(email=body.get('email'), password=body.get('password'))
 
         if user:
@@ -59,4 +59,4 @@ class SessionTokens(APIView):
             return response
         else:
             # print('==== NO USER FOUND ====', file=sys.stderr)
-            return responses[BAD_REQUEST]({'message': 'Bad request'})
+            return responses[UNAUTHORIZED]({'message': 'Invalid credentials'})
