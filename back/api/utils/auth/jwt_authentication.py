@@ -1,7 +1,7 @@
 from rest_framework_simplejwt.authentication import JWTAuthentication #type: ignore
 from rest_framework_simplejwt.exceptions import InvalidToken, AuthenticationFailed #type: ignore
 
-class CookieJWTAuthentication(JWTAuthentication):
+class JWTAuthentication(JWTAuthentication):
     """
     Custom authentication class that reads JWT from cookies instead of Authorization header
     """
@@ -10,7 +10,7 @@ class CookieJWTAuthentication(JWTAuthentication):
         raw_token = request.COOKIES.get('session_token')
         
         if raw_token is None:
-            print('== NO TOKEN POR QUÉ TOKAN? ==')
+            # print('== NO TOKEN POR QUÉ TOKAN? ==')
             return None
         
         try:
