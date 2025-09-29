@@ -111,7 +111,7 @@ def default_shelter(db):
 @pytest.fixture
 def default_user(db, default_shelter):
     User = get_user_model()
-    user, _ = User.objects.get_or_create(
+    user, created = User.objects.get_or_create(
         email="foo@bar.test",   # <- unique
         defaults={
             "name": "Foo",
@@ -119,6 +119,10 @@ def default_user(db, default_shelter):
             "shelter": default_shelter,
         },
     )
+
+    if created:
+        user.set_password('test')
+        user.save()
     return user
 # @pytest.mark.django_db
 @pytest.fixture
