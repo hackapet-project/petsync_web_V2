@@ -64,6 +64,9 @@ REST_FRAMEWORK = {
     # ... other settings
 }
 
+# In settings.py
+AUTHENTICATION_BACKENDS = ['core.backends.email.EmailBackend']
+
 from core.jwt_settings import JWT_SETTINGS
 
 SIMPLE_JWT = JWT_SETTINGS
