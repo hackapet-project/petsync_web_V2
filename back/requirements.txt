@@ -9,5 +9,6 @@ pytest==8.3.5
 pytest-django==4.11.1
 python-ulid==3.0.0
 
+freezegun
 requests
 gunicorn
