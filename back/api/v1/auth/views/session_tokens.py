@@ -23,11 +23,15 @@ class SessionTokens(APIView):
         email = body.get('email')
         password = body.get('password')
 
-        # print('==== BODY ==== ', body, sys.stderr)
+        print('==== Email ==== ', email, file=sys.stderr)
+        print('==== Password ==== ', password, file=sys.stderr)
+        
         if not email or not password:
             return responses[BAD_REQUEST]({'error': 'Email and password are required'})
             
-        user = authenticate(username=email, password=password)
+        user = authenticate(request, email=email, password=password)
+
+        print('-- USER --', user, file=sys.stderr)
         # user = user_repository.authenticate(email=body.get('email'), password=body.get('password'))
 
         if user:
@@ -58,5 +62,5 @@ class SessionTokens(APIView):
 
             return response
         else:
-            # print('==== NO USER FOUND ====', file=sys.stderr)
+            print('==== NO USER FOUND ====', file=sys.stderr)
             return responses[UNAUTHORIZED]({'message': 'Invalid credentials'})

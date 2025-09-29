@@ -1,23 +1,32 @@
-import pytest #type: ignore
+from django.contrib.auth import get_user_model #type: ignore
+from django.utils import timezone #type: ignore
 from datetime import timedelta
-from django.utils import timezone
-from freezegun import freeze_time
+from freezegun import freeze_time #type: ignore
+import pytest #type: ignore
 
 @pytest.mark.django_db
 class TestSessionToken():
-    def test_logs_user_in_with_valid_credentials(self, auth_client, default_user):
+    def test_logs_user_in_with_valid_credentials(self, client, default_user):
+        User = get_user_model()
+        print(f"==== USER IN TEST ====")
+        print(f"User email: {default_user.email}")
+        print(f"User exists in DB: {User.objects.filter(email=default_user.email).exists()}")
+        print(f"Total users in DB: {User.objects.count()}")
         uri = '/v1/auth/session_tokens/'
-        c = auth_client
         payload = {
-            'email': 'foo@bar.test',
+            'email': default_user.email,
             'password': 'test'
         }
+        print(f"Payload: {payload}")
 
-        response = c.post(uri, payload, format='json')
+        response = client.post(uri, payload, format='json')
 
+        print('== COOKIES ==', response.cookies)
         assert response.status_code == 200
+        # assert False == True
         assert "session_token" in response.cookies
         assert "refresh_token" in response.cookies
+
 
     def test_returns_401_code_with_invalid_credentials(self, client):
         uri = '/v1/auth/session_tokens/'
@@ -37,39 +46,39 @@ class TestSessionToken():
         """Test that an expired access token can be refreshed with a valid refresh token"""
         # Login to get tokens
         uri = '/v1/auth/session_tokens/'
+        user = default_user
         payload = {
-            'email': 'foo@bar.test',
-            'password': 'test'
+            'email': user.email,
+            'password': user.password
         }
-        response = client.post(uri, payload, format='json')
+        login_response = client.post(uri, payload, format='json')
         
         # Extract tokens from cookies
-        access_token = response.cookies.get('session_token')
-        refresh_token = response.cookies.get('refresh_token')
-
         print(
-            f"== ACCESS == {access_token}",
-            f"== REFRESH == {refresh_token}"
+            '== COOKIES COOKIES ==', login_response.cookies
         )
-        
+        access_token = login_response.cookies['session_token']
+        refresh_token = login_response.cookies['refresh_token']
+
+        self.client.cookies['session_token'] = access_token
+        self.client.cookies['refresh_token'] = refresh_token
+
+        # print(
+        #     f"== ACCESS == {access_token}",
+        #     f"== REFRESH == {refresh_token}"
+        # )
         # Simulate time passing (access token expires after 5 minutes based on your max_age)
         with freeze_time(timezone.now() + timedelta(minutes=6)):
             # Try to access a protected endpoint with expired access token
             protected_uri = '/v1/auth/'
 
-            response = client.get(
-                protected_uri,
-                HTTP_COOKIE=f'session_token={access_token}'
-            )
+            response = client.get(protected_uri)
             # Should fail with expired token
             assert response.status_code in [401, 403]
             
             # Now refresh the token
             refresh_uri = '/v1/auth/refresh/'  # Your refresh endpoint
-            response = client.post(
-                refresh_uri,
-                HTTP_COOKIE=f'refresh_token={refresh_token}'
-            )
+            response = client.post(refresh_uri)
             
             # Should get new access token
             assert response.status_code == 200
