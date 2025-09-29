@@ -56,6 +56,18 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'api.utils.auth.jwt_authentication.CookieJWTAuthentication',  # Add this
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+    # ... other settings
+}
+
+from core.jwt_settings import JWT_SETTINGS
+
+SIMPLE_JWT = JWT_SETTINGS
+
 ROOT_URLCONF = 'core.urls'
 
 TEMPLATES = [
