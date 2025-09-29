@@ -1,13 +1,16 @@
+import pytest #type: ignore
+
+@pytest.mark.django_db
 class TestSessionToken():
-    def test_logs_user_in_with_valid_credentials(self, client):
+    def test_logs_user_in_with_valid_credentials(self, auth_client, default_user):
         uri = '/v1/auth/session_tokens/'
+        c = auth_client
         payload = {
-            'user': 'Diego',
-            'email': 'test@test.com',
-            'password': '123'
+            'email': 'foo@bar.test',
+            'password': 'test'
         }
 
-        response = client.post(uri, payload, format='json')
+        response = c.post(uri, payload, format='json')
 
         assert response.status_code == 200
         assert "session_token" in response.cookies

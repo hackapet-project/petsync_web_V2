@@ -1,6 +1,10 @@
+from django.shortcuts import get_object_or_404
+from django.contrib.auth import authenticate
+
 from rest_framework.views import APIView #type: ignore
 from rest_framework.response import Response #type:ignore
 from rest_framework import status #type:ignore
+
 from api.utils.custom_reponses import get_responses, OK, BAD_REQUEST
 from api.utils.repositories.user_repository import UserRepository
 from api.utils.auth.token_authenticator import TokenAuthenticator
@@ -16,8 +20,15 @@ class SessionTokens(APIView):
     def post(self, request):
         # users = user_repository.get_all()
         body = request.data
+        email = body.get('email')
+        password = body.get('password')
+
         # print('==== BODY ==== ', body, sys.stderr)
-        user = user_repository.authenticate(email=body.get('email'), password=body.get('password'))
+        if not email or not password:
+            return responses[BAD_REQUEST]({'error': 'Email and password are required'})
+            
+        user = authenticate(request, username=email, password=password)
+        # user = user_repository.authenticate(email=body.get('email'), password=body.get('password'))
 
         if user:
             # print('==== Ey yo mama: USER FOUND ====', file=sys.stderr)
