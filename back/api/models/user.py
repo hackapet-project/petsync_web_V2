@@ -30,11 +30,7 @@ class CustomUserManager(BaseUserManager.from_queryset(UserQuerySet)):
             raise ValueError("Users must belong to a shelter")
 
         email = self.normalize_email(email)
-        user = self.model(
-            email=email,
-            name=name,
-            shelter=shelter,
-            **extra_fields)
+        user = self.model(email=email, **extra_fields)
         user.set_password(password)  # This hashes the password
         user.save(using=self._db)
         return user
@@ -45,10 +41,7 @@ class CustomUserManager(BaseUserManager.from_queryset(UserQuerySet)):
 
         extra_fields.setdefault("role", "ADMIN")
 
-        return self.create_user(
-            email=email,
-            password=password,
-            shelter=shelter, **extra_fields)
+        return self.create_user(email=email, **extra_fields)
 
 class User(AbstractBaseUser):
     user_id = models.CharField(max_length=26, default=generate_ulid, editable=False, unique=True)
