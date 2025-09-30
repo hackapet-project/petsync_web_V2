@@ -1,0 +1,18 @@
+# Docker Compose override for local development
+# Usage: docker compose -f docker-compose.yml -f docker-compose.local.yml up
+#
+# This file adds port mappings for local development that are removed
+# from the main docker-compose.yml to allow Coolify to auto-allocate ports
+
+services:
+  frontend:
+    ports:
+      - "4000:3000"
+
+  backend:
+    ports:
+      - "9001:8000"
+
+  db:
+    ports:
+      - "5432:5432"

@@ -1,5 +1,5 @@
 <main class="login-container" role="main">
-  <!-- Left side - Purple background with logo and text -->
+  <!-- Left side - Purple background with logo and text (desktop only) -->
   <section class="brand-section left-panel" aria-label="Información de la aplicación">
     <header class="logo-section">
       <h1 class="app-title">PetSync</h1>
@@ -19,6 +19,13 @@
   <!-- Right side - Login form -->
   <section class="form-section right-panel" aria-label="Formulario de inicio de sesión">
     <article class="form-container">
+      <!-- Mobile Logo (hidden on desktop) -->
+      <header class="mobile-logo-header">
+        <svg class="logo-icon" width="48" height="48" viewBox="0 0 24 24" fill="none">
+          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="#6366f1"/>
+        </svg>
+        <h1 class="mobile-app-title">RefuPet</h1>
+      </header>
       <header class="form-header">
         <h1 id="login-title">Iniciar sesión</h1>
         <p>Accede a tu cuenta para gestionar el refugio</p>
@@ -116,7 +123,7 @@
         </fieldset>
 
         <aside class="forgot-password">
-          <a href="#" class="forgot-link" tabindex="4">¿Olvidaste tu contraseña?</a>
+          <a routerLink="/forgot-password" class="forgot-link" tabindex="4">¿Olvidaste tu contraseña?</a>
         </aside>
 
         <button
@@ -157,7 +164,7 @@
 
         <footer class="signup-link">
           <span>¿Nuevo en la plataforma? </span>
-          <a href="#" class="signup-text" tabindex="7">Conoce más aquí</a>
+          <a routerLink="/register" class="signup-text" tabindex="7">Regístrate aquí</a>
         </footer>
       </form>
     </article>

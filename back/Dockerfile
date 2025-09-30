@@ -12,11 +12,15 @@ WORKDIR $WORKPATH
 COPY --chown=$USERNAME:$USERNAME requirements.txt $WORKPATH
 RUN pip install -r requirements.txt
 
-RUN chown -R ${USER_ID}:${GROUP_ID} . $WORKPATH
+# Copy application code
+COPY --chown=$USERNAME:$USERNAME . $WORKPATH
+
+RUN chown -R ${USER_ID}:${GROUP_ID} $WORKPATH
 
 USER $USERNAME
 
-# ENV DJANGO_SETTINGS_MODULE=core.settings
+ENV PYTHONPATH=$WORKPATH
 
-# CMD ["python", "manage.py", "runserver", "0.0.0.0:9000"]
-CMD ["gunicorn", "--bind", "0.0.0.0:9000", "core.wsgi:application"]
+EXPOSE 8000
+
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "core.wsgi:application"]

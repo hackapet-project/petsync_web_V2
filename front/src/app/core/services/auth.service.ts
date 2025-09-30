@@ -2,27 +2,16 @@ import { Injectable, inject, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ErrorHandlerService, LoginError } from './error-handler.service';
 import { LoadingService } from './loading.service';
+import { User, LoginRequest } from '../models';
 
-export interface LoginCredentials {
-  email: string;
-  password: string;
-}
+// Keep LoginCredentials as alias for backward compatibility
+export type LoginCredentials = LoginRequest;
 
 export interface AuthResponse {
   success: boolean;
   token?: string;
-  user?: {
-    id: string;
-    email: string;
-    name: string;
-  };
+  user?: User;
   error?: LoginError;
-}
-
-export interface User {
-  id: string;
-  email: string;
-  name: string;
 }
 
 @Injectable({
@@ -62,7 +51,10 @@ export class AuthService {
           const user: User = {
             id: '1',
             email: credentials.email,
-            name: 'Usuario Test'
+            name: 'Usuario Test',
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+            isActive: true
           };
 
           this.userSignal.set(user);
@@ -100,7 +92,10 @@ export class AuthService {
           const user: User = {
             id: '2',
             email: 'user@gmail.com',
-            name: 'Usuario Google'
+            name: 'Usuario Google',
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+            isActive: true
           };
 
           this.userSignal.set(user);

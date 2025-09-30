@@ -1,6 +1,7 @@
 import { Component, OnInit, ElementRef, ViewChild, inject, signal, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Router, RouterLink } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { AuthService, LoginCredentials } from '../../core/services/auth.service';
 import { LoadingService } from '../../core/services/loading.service';
@@ -10,7 +11,7 @@ import { CustomValidators } from '../../core/validators/custom-validators';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -32,6 +33,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   private readonly formBuilder = inject(FormBuilder);
   private readonly authService = inject(AuthService);
   private readonly loadingService = inject(LoadingService);
+  private readonly router = inject(Router);
 
   // Computed loading state from service
   readonly loading = this.loadingService.loading;
@@ -187,6 +189,14 @@ export class LoginComponent implements OnInit, OnDestroy {
   // Helper method to check if currently loading
   isCurrentlyLoading(): boolean {
     return this.loading().isLoading;
+  }
+
+  onForgotPassword(): void {
+    this.router.navigate(['/forgot-password']);
+  }
+
+  onRegister(): void {
+    this.router.navigate(['/register']);
   }
 
   ngOnDestroy(): void {

@@ -1,0 +1,235 @@
+<main class="register-container" role="main">
+  <!-- Left side - Purple background with branding (desktop only) -->
+  <section class="brand-section left-panel" aria-label="Información de la aplicación">
+    <header class="logo-section">
+      <h1 class="app-title">PetSync</h1>
+      <aside>
+        <small>by</small>
+        <figure>
+          <img src="/logo-hackapet.svg" alt="Hackapet Logo" class="logo">
+        </figure>
+      </aside>
+    </header>
+    <article class="description">
+      <h2>Gestión profesional para refugios de animales</h2>
+      <p>Simplifica la administración de tu refugio con nuestra plataforma integral</p>
+    </article>
+  </section>
+
+  <!-- Right side - Register form -->
+  <section class="form-section right-panel" aria-label="Formulario de registro">
+    <article class="form-container">
+      <!-- Mobile Logo (hidden on desktop) -->
+      <header class="mobile-logo-header">
+        <svg class="logo-icon" width="48" height="48" viewBox="0 0 24 24" fill="none">
+          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="#6366f1"/>
+        </svg>
+        <h1 class="mobile-app-title">RefuPet</h1>
+      </header>
+
+      <header class="form-header">
+        <h1 id="register-title">Crear cuenta</h1>
+        <p>Regístrate para gestionar tu refugio de animales</p>
+      </header>
+
+      <!-- Error Display -->
+      @if (error()) {
+        <div class="error-banner" role="alert" aria-live="assertive">
+          <div class="error-content">
+            <svg class="error-icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <div>
+              <h4>Error en el registro</h4>
+              <p>{{ error() }}</p>
+            </div>
+            <button type="button" class="error-close" (click)="clearError()" aria-label="Cerrar error">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M6 6l12 12M6 18L18 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      }
+
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form" aria-labelledby="register-title" novalidate>
+        <!-- Name field -->
+        <fieldset class="form-group">
+          <label for="name">Nombre completo</label>
+          <div class="input-wrapper">
+            <input
+              type="text"
+              id="name"
+              formControlName="name"
+              placeholder="Tu nombre completo"
+              [class.error]="getFieldError('name')"
+              autocomplete="name"
+              tabindex="1"
+              [attr.aria-describedby]="getFieldError('name') ? 'name-error' : null"
+              [attr.aria-invalid]="getFieldError('name') ? 'true' : 'false'"
+              aria-required="true"
+              spellcheck="false"
+            >
+            <span class="input-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" fill="currentColor"/>
+              </svg>
+            </span>
+          </div>
+          @if (getFieldError('name')) {
+            <small class="error error-message" id="name-error" role="alert">{{ getFieldError('name') }}</small>
+          }
+        </fieldset>
+
+        <!-- Email field -->
+        <fieldset class="form-group">
+          <label for="email">Correo electrónico</label>
+          <div class="input-wrapper">
+            <input
+              type="email"
+              id="email"
+              formControlName="email"
+              placeholder="tu@ejemplo.com"
+              [class.error]="getFieldError('email')"
+              autocomplete="email"
+              tabindex="2"
+              [attr.aria-describedby]="getFieldError('email') ? 'email-error' : 'email-help'"
+              [attr.aria-invalid]="getFieldError('email') ? 'true' : 'false'"
+              aria-required="true"
+              spellcheck="false"
+            >
+            <span class="input-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M12 12.713l-11.985-9.713h23.97l-11.985 9.713zm0 2.574l-12-9.725v15.438h24v-15.438l-12 9.725z" fill="currentColor"/>
+              </svg>
+            </span>
+          </div>
+          @if (getFieldError('email')) {
+            <small class="error error-message" id="email-error" role="alert">{{ getFieldError('email') }}</small>
+          } @else {
+            <small class="help-text" id="email-help">Usaremos este correo para tu cuenta</small>
+          }
+        </fieldset>
+
+        <!-- Password field -->
+        <fieldset class="form-group">
+          <label for="password">Contraseña</label>
+          <div class="input-wrapper">
+            <input
+              [type]="isPasswordVisible ? 'text' : 'password'"
+              id="password"
+              formControlName="password"
+              placeholder="Crea una contraseña segura"
+              [class.error]="getFieldError('password')"
+              autocomplete="new-password"
+              tabindex="3"
+              [attr.aria-describedby]="getFieldError('password') ? 'password-error' : 'password-help'"
+              [attr.aria-invalid]="getFieldError('password') ? 'true' : 'false'"
+              aria-required="true"
+              spellcheck="false"
+            >
+            <button
+              type="button"
+              class="password-toggle"
+              (click)="togglePasswordVisibility()"
+              [attr.aria-label]="isPasswordVisible ? 'Ocultar contraseña' : 'Mostrar contraseña'"
+              tabindex="4"
+            >
+              @if (isPasswordVisible) {
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 4.5C7.305 4.5 3.27 7.261 1 12c2.27 4.739 6.305 7.5 11 7.5s8.73-2.761 11-7.5c-2.27-4.739-6.305-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" fill="currentColor"/>
+                </svg>
+              } @else {
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-2.27-4.74-6.31-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c2.27 4.74 6.31 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z" fill="currentColor"/>
+                </svg>
+              }
+            </button>
+          </div>
+          @if (getFieldError('password')) {
+            <small class="error error-message" id="password-error" role="alert">{{ getFieldError('password') }}</small>
+          } @else {
+            <small class="help-text" id="password-help">Mínimo 8 caracteres, incluye mayúsculas, minúsculas y números</small>
+          }
+        </fieldset>
+
+        <!-- Confirm Password field -->
+        <fieldset class="form-group">
+          <label for="confirmPassword">Confirmar contraseña</label>
+          <div class="input-wrapper">
+            <input
+              [type]="isConfirmPasswordVisible ? 'text' : 'password'"
+              id="confirmPassword"
+              formControlName="confirmPassword"
+              placeholder="Confirma tu contraseña"
+              [class.error]="getFieldError('confirmPassword')"
+              autocomplete="new-password"
+              tabindex="5"
+              [attr.aria-describedby]="getFieldError('confirmPassword') ? 'confirm-password-error' : null"
+              [attr.aria-invalid]="getFieldError('confirmPassword') ? 'true' : 'false'"
+              aria-required="true"
+              spellcheck="false"
+            >
+            <button
+              type="button"
+              class="password-toggle"
+              (click)="toggleConfirmPasswordVisibility()"
+              [attr.aria-label]="isConfirmPasswordVisible ? 'Ocultar contraseña' : 'Mostrar contraseña'"
+              tabindex="6"
+            >
+              @if (isConfirmPasswordVisible) {
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 4.5C7.305 4.5 3.27 7.261 1 12c2.27 4.739 6.305 7.5 11 7.5s8.73-2.761 11-7.5c-2.27-4.739-6.305-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" fill="currentColor"/>
+                </svg>
+              } @else {
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-2.27-4.74-6.31-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c2.27 4.74 6.31 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z" fill="currentColor"/>
+                </svg>
+              }
+            </button>
+          </div>
+          @if (getFieldError('confirmPassword')) {
+            <small class="error error-message" id="confirm-password-error" role="alert">{{ getFieldError('confirmPassword') }}</small>
+          }
+        </fieldset>
+
+        <!-- Terms and conditions -->
+        <fieldset class="form-group checkbox-group">
+          <label class="checkbox-label">
+            <input
+              type="checkbox"
+              formControlName="acceptTerms"
+              tabindex="7"
+              [attr.aria-invalid]="getFieldError('acceptTerms') ? 'true' : 'false'"
+            >
+            <span>
+              Acepto los <a href="#" class="link" (click)="$event.preventDefault()">términos y condiciones</a> y la <a href="#" class="link" (click)="$event.preventDefault()">política de privacidad</a>
+            </span>
+          </label>
+          @if (getFieldError('acceptTerms')) {
+            <small class="error error-message" role="alert">{{ getFieldError('acceptTerms') }}</small>
+          }
+        </fieldset>
+
+        <button
+          type="submit"
+          class="register-button"
+          [disabled]="registerForm.invalid || isLoading()"
+          tabindex="8"
+        >
+          @if (isLoading()) {
+            <span class="spinner" aria-hidden="true"></span>
+            <span>Creando cuenta...</span>
+          } @else {
+            Crear cuenta
+          }
+        </button>
+
+        <footer class="login-link">
+          <span>¿Ya tienes cuenta? </span>
+          <a routerLink="/login" class="link-text" tabindex="9">Inicia sesión aquí</a>
+        </footer>
+      </form>
+    </article>
+  </section>
+</main>

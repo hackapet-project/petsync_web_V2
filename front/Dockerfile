@@ -11,9 +11,14 @@ RUN usermod -g ${GROUP_ID} ${USERNAME}
 
 RUN mkdir -p ${WORKPATH}/node_modules && chown -R ${USERNAME}:${USERNAME} ${WORKPATH}
 WORKDIR ${WORKPATH}
-USER ${USERNAME}
 COPY --chown=${USERNAME}:${USERNAME} package*.json ./
 RUN npm install
+RUN npm install -g @angular/cli
+
+COPY --chown=${USERNAME}:${USERNAME} . .
+RUN chown -R ${USER_ID}:${GROUP_ID} ${WORKPATH}
+
+USER ${USERNAME}
 RUN npm install @angular/cli
 COPY --chown=${USERNAME}:${USERNAME} . .
 # RUN npm run build
@@ -49,3 +54,6 @@ CMD ["npx", "ng", "serve", "--host", "0.0.0.0"]
 
 # CMD ["npx", "ng", "serve", "--host", "0.0.0.0"]
 
+EXPOSE 3000
+
+CMD ["npx", "ng", "serve", "--host", "0.0.0.0", "--port", "3000"]

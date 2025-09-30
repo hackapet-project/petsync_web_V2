@@ -3,11 +3,26 @@
 <head>
   <meta charset="utf-8">
   <title>PetSync - Gestión profesional para refugios</title>
-  <base href=".">
+  <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Simplifica la administración de tu refugio con nuestra plataforma integral">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="alternate icon" type="image/x-icon" href="favicon.ico">
+  <!-- Runtime environment configuration - optional, can be injected at deployment -->
+  <script>
+    // Dynamically load env.js if it exists, ignore error if not present
+    (function() {
+      var script = document.createElement('script');
+      script.src = 'env.js';
+      script.onload = function() {
+        // env.js loaded successfully
+      };
+      script.onerror = function() {
+        // env.js not found, ignore error
+      };
+      document.head.appendChild(script);
+    })();
+  </script>
 </head>
 <body>
   <app-root></app-root>

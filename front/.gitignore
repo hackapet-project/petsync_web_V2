@@ -40,3 +40,6 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Runtime configuration (use env.template.js as reference)
+/public/env.js

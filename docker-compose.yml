@@ -1,89 +1,61 @@
 services:
-  front:
+  frontend:
     build:
       context: ./front
-      # target: build
-      # host: true
-      # env_file:
-      #   - .env
-    ports:
-      - 4200:4200
-    volumes:
-      # - frontend_build:/opt/workdir/dist/angular
-      - type: bind
-        source: ./front
-        target: /opt/workdir
-      - ./front:/opt/workdir
-      - front_modules:/opt/workdir/node_modules
-      # command: sh
-  django_scaffolder:
-        build:
-          context: .
-          dockerfile: Dockerfile.django
-        volumes:
-          - type: bind
-            source: .
-            target: /opt/workdir
+      dockerfile: Dockerfile
+    # Port mapping removed - Coolify handles port allocation automatically
+    expose:
+      - "3000"
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+    labels:
+      - "coolify.main=true"
+      - "coolify.port=3000"
 
-  angular_scaffolder:
-    build:
-      context: .
-      dockerfile: Dockerfile.angular
-    volumes:
-      - type: bind
-        source: .
-        target: /opt/workdir
-  back:
+  backend:
     build:
       context: ./back
-    env_file:
-      - .env
-    ports:
-      - 9000:9000
-    volumes:
-      - type: bind
-        source: ./back
-        target: /opt/workdir
+      dockerfile: Dockerfile
+    # Port mapping removed - Coolify handles port allocation automatically
+    expose:
+      - "8000"
     environment:
-      # - DJANGO_SETTINGS_MODULE=core.settings.${DJANGO_ENV}
-      - DJANGO_SETTINGS_MODULE=core.settings
-      - POSTGRES_DB=${POSTGRES_DB}
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_HOST=${POSTGRES_HOST}
-      - POSTGRES_PORT=${POSTGRES_PORT}
       - PYTHONUNBUFFERED=1
-    # depends_on:
-    #   - postgres
-
-  adminer:
-    # networks:
-    #     - web
-    image: adminer
-    ports:
-      - "0.0.0.0:10000:8080"
-  nginx:
-    container_name: nginx
-    build:
-      context: .
-      dockerfile: nginx/Dockerfile.nginx
-    ports:
-      - "80:80"
-      - "443:443"
+      - DJANGO_SETTINGS_MODULE=core.settings
+      - PYTHONPATH=/opt/workdir
+      - DATABASE_URL=${DATABASE_URL:-postgresql://petsync_user:petsync_dev_password_123@db:5432/petsync_db}
+      - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY:-django-insecure-dev-key-change-in-production-123456789}
+      - DJANGO_DEBUG=${DJANGO_DEBUG:-False}
+      - DJANGO_ALLOWED_HOSTS=${DJANGO_ALLOWED_HOSTS:-*}
+      - DJANGO_FORCE_HTTPS=${DJANGO_FORCE_HTTPS:-False}
+      - DJANGO_ENV=${DJANGO_ENV:-production}
+      - FORCE_REBUILD=1
     depends_on:
-      - back
+      db:
+        condition: service_healthy
+    labels:
+      - "coolify.service=web"
+      - "coolify.port=8000"
+    restart: unless-stopped
     volumes:
-      # MAIN config must be here (not in conf.d)
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - static_volume:/opt/workdir/staticfiles
 
-      # VHOSTS only in conf.d
-      - ./nginx/default.conf:/etc/nginx/conf.d/00-api.conf:ro
-      - ./nginx/hz.conf:/etc/nginx/conf.d/10-hc.conf:ro
-
-      # Certbot paths (read-only is fine)
-      - ./certbot/conf:/etc/letsencrypt:ro
-      - ./certbot/www:/var/www/certbot:ro
-    restart: always
+  db:
+    image: postgres:15-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB:-petsync_db}
+      - POSTGRES_USER=${POSTGRES_USER:-petsync_user}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-petsync_dev_password_123}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-petsync_user} -d ${POSTGRES_DB:-petsync_db} -h 127.0.0.1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
 
 volumes:
-  front_modules:
+  postgres_data:
+  static_volume:

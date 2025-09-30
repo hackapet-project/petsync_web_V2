@@ -7,6 +7,16 @@ export const routes: Routes = [
     title: 'Iniciar Sesión - PetSync'
   },
   {
+    path: 'forgot-password',
+    loadComponent: () => import('./pages/forgot-password/forgot-password').then(m => m.ForgotPasswordComponent),
+    title: 'Recuperar Contraseña - PetSync'
+  },
+  {
+    path: 'register',
+    loadComponent: () => import('./pages/register/register').then(m => m.RegisterComponent),
+    title: 'Crear Cuenta - PetSync'
+  },
+  {
     path: '',
     redirectTo: '/login',
     pathMatch: 'full'
