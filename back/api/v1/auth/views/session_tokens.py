@@ -23,15 +23,11 @@ class SessionTokens(APIView):
         email = body.get('email')
         password = body.get('password')
 
-        print('==== Email ==== ', email, file=sys.stderr)
-        print('==== Password ==== ', password, file=sys.stderr)
-        
         if not email or not password:
             return responses[BAD_REQUEST]({'error': 'Email and password are required'})
             
-        user = authenticate(request, email=email, password=password)
+        user = authenticate(request, username=email, password=password)
 
-        print('-- USER --', user, file=sys.stderr)
         # user = user_repository.authenticate(email=body.get('email'), password=body.get('password'))
 
         if user:

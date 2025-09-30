@@ -8,25 +8,17 @@ import pytest #type: ignore
 class TestSessionToken():
     def test_logs_user_in_with_valid_credentials(self, client, default_user):
         User = get_user_model()
-        print(f"==== USER IN TEST ====")
-        print(f"User email: {default_user.email}")
-        print(f"User exists in DB: {User.objects.filter(email=default_user.email).exists()}")
-        print(f"Total users in DB: {User.objects.count()}")
         uri = '/v1/auth/session_tokens/'
         payload = {
             'email': default_user.email,
             'password': 'test'
         }
-        print(f"Payload: {payload}")
 
         response = client.post(uri, payload, format='json')
 
-        print('== COOKIES ==', response.cookies)
         assert response.status_code == 200
-        # assert False == True
         assert "session_token" in response.cookies
         assert "refresh_token" in response.cookies
-
 
     def test_returns_401_code_with_invalid_credentials(self, client):
         uri = '/v1/auth/session_tokens/'
@@ -46,27 +38,20 @@ class TestSessionToken():
         """Test that an expired access token can be refreshed with a valid refresh token"""
         # Login to get tokens
         uri = '/v1/auth/session_tokens/'
-        user = default_user
         payload = {
-            'email': user.email,
-            'password': user.password
+            'email': default_user.email,
+            'password': 'test'
         }
+
         login_response = client.post(uri, payload, format='json')
         
         # Extract tokens from cookies
-        print(
-            '== COOKIES COOKIES ==', login_response.cookies
-        )
         access_token = login_response.cookies['session_token']
         refresh_token = login_response.cookies['refresh_token']
 
-        self.client.cookies['session_token'] = access_token
-        self.client.cookies['refresh_token'] = refresh_token
+        client.cookies['session_token'] = access_token
+        client.cookies['refresh_token'] = refresh_token
 
-        # print(
-        #     f"== ACCESS == {access_token}",
-        #     f"== REFRESH == {refresh_token}"
-        # )
         # Simulate time passing (access token expires after 5 minutes based on your max_age)
         with freeze_time(timezone.now() + timedelta(minutes=6)):
             # Try to access a protected endpoint with expired access token

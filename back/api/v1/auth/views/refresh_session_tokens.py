@@ -1,39 +1,32 @@
-from rest_framework.views import APIView
-# from rest_framework.response import Response
-# from rest_framework import status
-from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework_simplejwt.exceptions import TokenError
+from rest_framework.permissions import AllowAny #type: ignore
+from rest_framework_simplejwt.tokens import RefreshToken #type: ignore
+from rest_framework_simplejwt.views import TokenRefreshView #type: ignore
 
-from api.utils.custom_reponses import get_responses, OK, BAD_REQUEST, UNAUTHORIZED
+from api.utils.custom_reponses import get_responses, OK, UNAUTHORIZED
 
 import sys
 
 responses = get_responses()
 
-class RefreshSessionTokens(APIView):
+class RefreshSessionTokens(TokenRefreshView):
+    permission_classes = [AllowAny]
     def post(self, request):
         refresh_token = request.COOKIES.get('refresh_token')
-        print(f"DEBUG: refresh_token from cookie: {refresh_token}", file=sys.stderr) 
+        # print(f"DEBUG: refresh_token from cookie: {refresh_token}", file=sys.stderr) 
         
         if not refresh_token:
-            return responses[BAD_REQUEST]({'error': 'Refresh token is required'})
+            return responses[UNAUTHORIZED]({'error': 'Refresh token is missing'})
         
-        try:
-            # Verify and refresh the token
-            token = RefreshToken(refresh_token)
-            new_access_token = str(token.access_token)
-            
-            response = responses[OK]()
-            response.set_cookie(
-                key='session_token',
-                value=new_access_token,
-                httponly=True,
-                secure=False,
-                domain=None,
-                samesite='None',
-                max_age=300
-            )
-            return response
-            
-        except TokenError:
-            return responses[UNAUTHORIZED]({'error': 'Invalid or expired refresh token'})
+        serializer = self.get_serializer(data={"refresh": refresh_token})
+        serializer.is_valid(raise_exception=True)
+        
+        response = responses[OK]()
+        response.set_cookie(
+            "session_token",
+            serializer.validated_data["access"],
+            httponly=True,
+            samesite="None",
+            secure=False,
+            max_age=300,
+        )
+        return response

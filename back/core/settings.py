@@ -72,7 +72,7 @@ MIDDLEWARE = [
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'api.utils.auth.jwt_authentication.CookieJWTAuthentication',  # Add this
+        'api.utils.auth.jwt_authentication.JWTAuthentication',  # Add this
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
     # ... other settings
