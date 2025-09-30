@@ -16,9 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin #type: ignore
 from django.urls import path, include #type: ignore
-# from api.
+from django.http import JsonResponse #type: ignore
+
+def health_check(request):
+    return JsonResponse({'status': 'healthy', 'service': 'petsync-api'})
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('health/', health_check, name='health_check'),
     path('', include('api.urls')),
 ]

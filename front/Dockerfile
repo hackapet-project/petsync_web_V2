@@ -10,13 +10,14 @@ RUN usermod -g ${GROUP_ID} ${USERNAME}
 
 WORKDIR ${WORKPATH}
 COPY --chown=${USERNAME}:${USERNAME} package*.json ./
-COPY . .
-RUN chown -R ${USER_ID}:${GROUP_ID} ${WORKPATH}
 RUN npm install
 RUN npm install -g @angular/cli
 
-RUN npm run build
+COPY --chown=${USERNAME}:${USERNAME} . .
+RUN chown -R ${USER_ID}:${GROUP_ID} ${WORKPATH}
 
 USER ${USERNAME}
 
-CMD ["npx", "ng", "serve", "--host", "0.0.0.0"]
+EXPOSE 3000
+
+CMD ["npx", "ng", "serve", "--host", "0.0.0.0", "--port", "3000"]

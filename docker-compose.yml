@@ -1,66 +1,60 @@
 services:
-  front:
+  frontend:
     build:
       context: ./front
-      # target: build
-      # host: true
-      # env_file:
-      #   - .env
+      dockerfile: Dockerfile
     ports:
-      - 4200:4200
-    volumes:
-      # - frontend_build:/opt/workdir/dist/angular
-      - front_modules:/opt/workdir/node_modules
-      - type: bind
-        source: ./front
-        target: /opt/workdir
-      # command: sh
-  django_scaffolder:
-        build:
-          context: .
-          dockerfile: Dockerfile.django
-        volumes:
-          - type: bind
-            source: .
-            target: /opt/workdir
+      - "4000:3000"
+    environment:
+      - NODE_ENV=production
+      - VITE_API_URL=${VITE_API_URL}
+    restart: unless-stopped
+    labels:
+      - "coolify.main=true"
+      - "coolify.port=3000"
 
-  angular_scaffolder:
-    build:
-      context: .
-      dockerfile: Dockerfile.angular
-    volumes:
-      - type: bind
-        source: .
-        target: /opt/workdir
-  back:
+  backend:
     build:
       context: ./back
-    env_file:
-      - .env
+      dockerfile: Dockerfile
     ports:
-      - 9000:9000
-    volumes:
-      - type: bind
-        source: ./back
-        target: /opt/workdir
+      - "9001:8000"
     environment:
-      # - DJANGO_SETTINGS_MODULE=core.settings.${DJANGO_ENV}
-      - DJANGO_SETTINGS_MODULE=core.settings
-      - POSTGRES_DB=${POSTGRES_DB}
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_HOST=${POSTGRES_HOST}
-      - POSTGRES_PORT=${POSTGRES_PORT}
       - PYTHONUNBUFFERED=1
-    # depends_on:
-    #   - postgres
+      - DJANGO_SETTINGS_MODULE=core.settings
+      - PYTHONPATH=/opt/workdir
+      - DATABASE_URL=${DATABASE_URL:-postgresql://petsync_user:petsync_dev_password_123@db:5432/petsync_db}
+      - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY:-django-insecure-dev-key-change-in-production-123456789}
+      - DJANGO_DEBUG=${DJANGO_DEBUG:-False}
+      - DJANGO_ALLOWED_HOSTS=${DJANGO_ALLOWED_HOSTS:-*}
+      - DJANGO_FORCE_HTTPS=${DJANGO_FORCE_HTTPS:-False}
+      - DJANGO_ENV=${DJANGO_ENV:-production}
+      - FORCE_REBUILD=1
+    depends_on:
+      db:
+        condition: service_healthy
+    labels:
+      - "coolify.service=web"
+      - "coolify.port=8000"
+    restart: unless-stopped
+    volumes:
+      - static_volume:/opt/workdir/staticfiles
 
-  adminer:
-    # networks:
-    #     - web
-    image: adminer
-    ports:
-      - "0.0.0.0:10000:8080"
+  db:
+    image: postgres:15-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB:-petsync_db}
+      - POSTGRES_USER=${POSTGRES_USER:-petsync_user}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-petsync_dev_password_123}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-petsync_user} -d ${POSTGRES_DB:-petsync_db} -h 127.0.0.1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
 
 volumes:
-  front_modules:
+  postgres_data:
+  static_volume:

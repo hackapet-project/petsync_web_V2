@@ -18,5 +18,6 @@ USER $USERNAME
 
 # ENV DJANGO_SETTINGS_MODULE=core.settings
 
-# CMD ["python", "manage.py", "runserver", "0.0.0.0:9000"]
-CMD ["gunicorn", "--bind", "0.0.0.0:9000", "core.wsgi:application"]
+EXPOSE 8000
+
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "core.wsgi:application"]
