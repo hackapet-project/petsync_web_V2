@@ -3,8 +3,9 @@ services:
     build:
       context: ./front
       dockerfile: Dockerfile
-    ports:
-      - "4000:3000"
+    # Port mapping removed - Coolify handles port allocation automatically
+    expose:
+      - "3000"
     environment:
       - NODE_ENV=production
     restart: unless-stopped
@@ -16,8 +17,9 @@ services:
     build:
       context: ./back
       dockerfile: Dockerfile
-    ports:
-      - "9001:8000"
+    # Port mapping removed - Coolify handles port allocation automatically
+    expose:
+      - "8000"
     environment:
       - PYTHONUNBUFFERED=1
       - DJANGO_SETTINGS_MODULE=core.settings

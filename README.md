@@ -101,10 +101,15 @@ docker compose logs -f
 ### Available Commands
 
 ```bash
-# Development
-make up          # Start full development environment
+# Local Development (with port mappings)
+make up          # Start development environment with ports 4000, 9001, 5432
 make down        # Stop all containers
 make build       # Build/rebuild containers
+
+# Production Deployment (Coolify auto-allocates ports)
+make up-prod     # Start without port mappings (for Coolify/cloud)
+make down-prod   # Stop production containers
+make build-prod  # Build for production deployment
 
 # Database
 make migrations  # Create and apply migrations
@@ -116,6 +121,8 @@ make test_back   # Run backend tests
 # Utilities
 make create_app i=app_name  # Create new Django app
 ```
+
+**Note**: The main `docker-compose.yml` uses `expose` instead of `ports` to allow Coolify to automatically allocate ports and avoid conflicts. For local development, we use `docker-compose.local.yml` which adds port mappings.
 
 ### Frontend Development
 
@@ -332,9 +339,14 @@ make up
 
 **Port conflicts?**
 
-If you see port conflict errors, check the ports in `docker-compose.yml`:
-- Frontend: 4000 (maps to internal port 3000)
-- Backend: 9001 (maps to internal port 8000)
+For local development:
+- Frontend: http://localhost:4000
+- Backend: http://localhost:9001
+- Database: localhost:5432
+
+If you see port conflicts locally, stop other services using these ports or modify `docker-compose.local.yml`.
+
+**Coolify Deployment**: No port configuration needed - Coolify automatically allocates ports based on the `expose` directives in `docker-compose.yml`.
 
 ---
 
