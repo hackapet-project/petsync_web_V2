@@ -46,7 +46,14 @@ function detectApiUrl(): string {
   }
 
   // Priority 3: Development mode - use localhost backend
-  const devPort = window.__env?.apiUrl?.match(/:(\d+)/)?.[1] || '9001';
+  let devPort = '9001';
+  const apiUrl = window.__env?.apiUrl;
+  if (apiUrl && (apiUrl.startsWith('http://') || apiUrl.startsWith('https://'))) {
+    const match = apiUrl.match(/:(\d+)/);
+    if (match) {
+      devPort = match[1];
+    }
+  }
   return `http://localhost:${devPort}/api`;
 }
 

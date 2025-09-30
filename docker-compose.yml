@@ -7,7 +7,6 @@ services:
       - "4000:3000"
     environment:
       - NODE_ENV=production
-      - VITE_API_URL=${VITE_API_URL}
     restart: unless-stopped
     labels:
       - "coolify.main=true"
