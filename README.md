@@ -63,7 +63,7 @@ Born from direct collaboration with rescue organizations like **SOS Peludetes**,
 
 ```bash
 # 1. Clone the repository
-git clone hhttps://github.com/hackapet-project/petsync_web_V2.git
+git clone https://github.com/hackapet-project/petsync_web_V2.git
 cd petsync_web_V2
 
 # 2. Start the development environment
