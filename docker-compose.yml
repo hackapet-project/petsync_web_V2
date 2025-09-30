@@ -10,10 +10,11 @@ services:
       - 4200:4200
     volumes:
       # - frontend_build:/opt/workdir/dist/angular
-      - front_modules:/opt/workdir/node_modules
       - type: bind
         source: ./front
         target: /opt/workdir
+      - ./front:/opt/workdir
+      - front_modules:/opt/workdir/node_modules
       # command: sh
   django_scaffolder:
         build:

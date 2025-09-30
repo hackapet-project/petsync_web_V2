@@ -13,6 +13,11 @@ create_app:
 test_back:
 	docker compose run --rm back pytest -vv --reuse-db --nomigrations
 
+install_front: build
+	rm -rf front/node_modules
+# 	mkdir front/node_modules
+	docker compose run --rm front npm install
+
 angular_scaffolder:
 	docker compose run --rm angular_scaffolder ng new ${i}
 
