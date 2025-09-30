@@ -1,5 +1,6 @@
 import { HttpInterceptorFn, HttpErrorResponse } from '@angular/common/http';
 import { catchError, throwError } from 'rxjs';
+import { environment } from '../config/environment.config';
 
 /**
  * API Interceptor - Handles all HTTP requests and responses
@@ -11,14 +12,8 @@ import { catchError, throwError } from 'rxjs';
  * - Logs errors in development mode
  */
 export const apiInterceptor: HttpInterceptorFn = (req, next) => {
-  // Get API base URL from environment variable
-  // In Coolify, set VITE_API_URL environment variable
-  // Production: https://api.refupet.org
-  // Development: http://localhost:9001/api
-  const apiUrl = (window as unknown as { __env?: { apiUrl?: string } }).__env?.apiUrl ||
-    (window.location.hostname.includes('refupet.org')
-      ? 'https://api.refupet.org'
-      : 'http://localhost:9001/api');
+  // Get API URL from centralized environment configuration
+  const apiUrl = environment.apiUrl;
 
   // Clone request and add API base URL if not already an absolute URL
   let modifiedReq = req;
@@ -39,7 +34,7 @@ export const apiInterceptor: HttpInterceptorFn = (req, next) => {
   return next(modifiedReq).pipe(
     catchError((error: HttpErrorResponse) => {
       // Log error in development mode
-      if (!window.location.hostname.includes('refupet.org')) {
+      if (!environment.production) {
         console.error('API Error:', {
           status: error.status,
           message: error.message,

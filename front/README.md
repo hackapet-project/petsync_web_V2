@@ -45,12 +45,27 @@ src/
 - **Forgot Password**: Email-based password recovery
 
 ### 🌐 API Configuration
-The API URL is automatically configured based on environment:
-- **Production** (refupet.org): `https://api.refupet.org`
-- **Development**: `http://localhost:9001/api`
-- **Override**: Set `window.__env.apiUrl` if needed
+The application uses a robust, portable API configuration system that works across all deployment environments without hardcoded domains.
 
-See `src/app/core/interceptors/api-interceptor.ts` for implementation.
+**Automatic Detection:**
+- **Production** (HTTPS): Uses `/api` relative path (same domain as frontend)
+- **Development** (localhost): Uses `http://localhost:9001/api`
+
+**Runtime Override:**
+For custom deployments, create `public/env.js` to override configuration:
+```javascript
+(function(window) {
+  window.__env = window.__env || {};
+  window.__env.apiUrl = 'https://api.example.com/api';
+  window.__env.production = true;
+}(this));
+```
+
+**Template Available:** Copy `public/env.template.js` to `public/env.js` and customize.
+
+**Implementation:**
+- Configuration: `src/app/core/config/environment.config.ts`
+- Interceptor: `src/app/core/interceptors/api-interceptor.ts`
 
 ### 📝 Form Validation
 All forms use reactive forms with custom validators:
@@ -110,14 +125,51 @@ npm run lint -- --fix
 npx tsc --noEmit
 ```
 
-## Deployment (Coolify)
+## Deployment
 
-The app auto-detects environment:
+### Standard Deployment (Coolify, Vercel, Netlify, etc.)
+The app auto-detects environment - no configuration needed:
 1. Build: `npm run build`
 2. Serve from `dist/front/browser/`
-3. API URL auto-configured based on hostname
+3. API URL auto-configured based on protocol (HTTP/HTTPS)
 
-No environment variables needed unless overriding API URL.
+### Custom API URL Deployment
+If your API is on a different domain:
+
+1. **Build Time:** Set `window.__env.apiUrl` before application loads
+2. **Runtime:** Create `public/env.js` with configuration
+3. **Docker:** Mount or copy `env.js` into container
+
+**Example Dockerfile:**
+```dockerfile
+FROM nginx:alpine
+COPY dist/front/browser /usr/share/nginx/html
+# Optional: Copy custom env.js
+COPY env.js /usr/share/nginx/html/env.js
+```
+
+**Example Docker Compose:**
+```yaml
+services:
+  frontend:
+    build: .
+    volumes:
+      - ./env.js:/usr/share/nginx/html/env.js:ro
+```
+
+**Example env.js for different domain:**
+```javascript
+(function(window) {
+  window.__env = { apiUrl: 'https://api.example.com/api', production: true };
+}(this));
+```
+
+### Environment Variables (Not Required)
+This project uses runtime configuration instead of build-time environment variables. This means:
+- ✅ Single build works for all environments
+- ✅ No rebuilding needed when changing API URL
+- ✅ Configuration changes at deployment time
+- ✅ More portable and flexible
 
 ## Code scaffolding
 
