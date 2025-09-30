@@ -186,7 +186,7 @@ fieldset input::placeholder,
   color: #9ca3af;
 }
 
-fieldset span,
+fieldset .input-wrapper span,
 .input-icon {
   position: absolute;
   right: 0.75rem;
@@ -381,6 +381,77 @@ footer a {
 
 footer a:hover {
   color: #4f46e5;
+  text-decoration: underline;
+}
+
+/* Checkbox Styles for Terms Acceptance */
+.checkbox-group {
+  gap: 0.5rem;
+  margin-top: 0;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-weight: normal;
+  color: #374151;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: 1rem;
+  height: 1rem;
+  margin: 0;
+  margin-top: 0.25rem;
+  border: 2px solid #d1d5db;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.2s;
+  accent-color: #6366f1;
+  position: relative;
+}
+
+.checkbox-label input[type="checkbox"]:hover {
+  border-color: #6366f1;
+}
+
+.checkbox-label input[type="checkbox"]:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.checkbox-label input[type="checkbox"]:checked {
+  background-color: #6366f1;
+  border-color: #6366f1;
+}
+
+.checkbox-label span {
+  flex: 1;
+  user-select: none;
+}
+
+.checkbox-label .link {
+  color: #6366f1;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.checkbox-label .link:hover {
+  color: #4f46e5;
+  text-decoration: underline;
+}
+
+.checkbox-label .link:focus {
+  outline: none;
   text-decoration: underline;
 }
 

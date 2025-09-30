@@ -12,11 +12,14 @@ WORKDIR $WORKPATH
 COPY --chown=$USERNAME:$USERNAME requirements.txt $WORKPATH
 RUN pip install -r requirements.txt
 
-RUN chown -R ${USER_ID}:${GROUP_ID} . $WORKPATH
+# Copy application code
+COPY --chown=$USERNAME:$USERNAME . $WORKPATH
+
+RUN chown -R ${USER_ID}:${GROUP_ID} $WORKPATH
 
 USER $USERNAME
 
-# ENV DJANGO_SETTINGS_MODULE=core.settings
+ENV PYTHONPATH=$WORKPATH
 
 EXPOSE 8000
 
