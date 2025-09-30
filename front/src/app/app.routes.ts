@@ -8,12 +8,12 @@ export const routes: Routes = [
   },
   {
     path: 'forgot-password',
-    loadComponent: () => import('./pages/forgot-password/forgot-password').then(m => m.ForgotPassword),
+    loadComponent: () => import('./pages/forgot-password/forgot-password').then(m => m.ForgotPasswordComponent),
     title: 'Recuperar Contraseña - PetSync'
   },
   {
     path: 'register',
-    loadComponent: () => import('./pages/register/register').then(m => m.Register),
+    loadComponent: () => import('./pages/register/register').then(m => m.RegisterComponent),
     title: 'Crear Cuenta - PetSync'
   },
   {

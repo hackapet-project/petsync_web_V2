@@ -12,7 +12,7 @@ import { CustomValidators } from '../../core/validators/custom-validators';
   styleUrl: './forgot-password.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ForgotPassword implements OnInit {
+export class ForgotPasswordComponent implements OnInit {
   forgotPasswordForm: FormGroup;
 
   private readonly errorSignal = signal<string | null>(null);
@@ -52,13 +52,13 @@ export class ForgotPassword implements OnInit {
 
     if (this.forgotPasswordForm.valid) {
       this.loadingSignal.set(true);
-      const email = this.forgotPasswordForm.value.email;
+      // const email = this.forgotPasswordForm.value.email;
 
       // Simulate API call
       setTimeout(() => {
         this.loadingSignal.set(false);
         this.emailSentSignal.set(true);
-        console.log('Password reset email sent to:', email);
+        // TODO: Implement actual API call to backend with email
       }, 1500);
     }
   }

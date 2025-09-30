@@ -286,7 +286,7 @@ form > button:disabled,
   pointer-events: auto; /* Allow click events for testing */
 }
 
-form > button span {
+form > button .spinner {
   display: inline-block;
   width: 16px;
   height: 16px;

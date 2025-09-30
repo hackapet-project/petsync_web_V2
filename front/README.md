@@ -1,16 +1,123 @@
-# Front
+# PetSync Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.1.4.
+Angular 20.1 application for animal shelter management platform.
 
-## Development server
-
-To start a local development server, run:
+## Quick Start
 
 ```bash
-ng serve
+# Install dependencies
+npm install
+
+# Start development server
+npm start
+# Opens at http://localhost:4200
+
+# Run linter
+npm run lint
+
+# Run tests
+npm test
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Project Structure
+
+```
+src/
+├── app/
+│   ├── core/                    # Core services, interceptors, models
+│   │   ├── interceptors/        # HTTP interceptors (API, auth)
+│   │   ├── models/              # TypeScript interfaces
+│   │   ├── services/            # Singleton services
+│   │   └── validators/          # Custom form validators
+│   ├── pages/                   # Page components
+│   │   ├── login/
+│   │   ├── register/
+│   │   └── forgot-password/
+│   └── shared/                  # Shared components, directives
+└── environments/                # Not used - API URL auto-detected
+```
+
+## Key Features
+
+### 🔐 Authentication Pages
+- **Login**: Email/password with Google OAuth placeholder
+- **Register**: Secure registration with password strength validation
+- **Forgot Password**: Email-based password recovery
+
+### 🌐 API Configuration
+The API URL is automatically configured based on environment:
+- **Production** (refupet.org): `https://api.refupet.org`
+- **Development**: `http://localhost:9001/api`
+- **Override**: Set `window.__env.apiUrl` if needed
+
+See `src/app/core/interceptors/api-interceptor.ts` for implementation.
+
+### 📝 Form Validation
+All forms use reactive forms with custom validators:
+- Email format validation
+- Password strength (8+ chars, uppercase, lowercase, numbers)
+- No whitespace validation
+- Password matching validation
+
+### 🎨 Responsive Design
+- Mobile-first approach
+- Desktop: Two-panel layout with branding
+- Mobile/Tablet (<768px): Single-panel centered design
+
+## Development Guidelines
+
+### Component Naming
+- Components must end with `Component`: `LoginComponent`, `RegisterComponent`
+- Use Angular CLI to generate: `ng generate component feature/name`
+
+### State Management
+- Use Angular signals for reactive state
+- Read-only signals exposed via `asReadonly()`
+- Example: `private userSignal = signal<User | null>(null)`
+
+### Form Validation
+```typescript
+// Use custom validators from core/validators
+this.form = this.fb.group({
+  email: ['', [Validators.required, CustomValidators.emailFormat()]],
+  password: ['', [Validators.required, Validators.minLength(8)]]
+});
+```
+
+### API Calls
+HTTP interceptor automatically:
+- Adds base URL to requests
+- Handles errors with user-friendly messages
+- Logs errors in development mode
+
+## TypeScript Interfaces
+
+All API contracts are defined in `src/app/core/models/`:
+- `User`, `LoginRequest`, `RegisterRequest`
+- `ApiResponse<T>`, `PaginatedResponse<T>`
+- Import via `import { User } from '@core/models'`
+
+## Code Quality
+
+```bash
+# Lint code
+npm run lint
+
+# Auto-fix linting issues
+npm run lint -- --fix
+
+# Check types
+npx tsc --noEmit
+```
+
+## Deployment (Coolify)
+
+The app auto-detects environment:
+1. Build: `npm run build`
+2. Serve from `dist/front/browser/`
+3. API URL auto-configured based on hostname
+
+No environment variables needed unless overriding API URL.
 
 ## Code scaffolding
 

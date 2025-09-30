@@ -2,7 +2,7 @@ import { Component, OnInit, signal, ChangeDetectionStrategy, OnDestroy, inject }
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject } from 'rxjs';
 import { CustomValidators } from '../../core/validators/custom-validators';
 
 @Component({
@@ -13,7 +13,7 @@ import { CustomValidators } from '../../core/validators/custom-validators';
   styleUrl: './register.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class Register implements OnInit, OnDestroy {
+export class RegisterComponent implements OnInit, OnDestroy {
   registerForm: FormGroup;
   isPasswordVisible = false;
   isConfirmPasswordVisible = false;
@@ -109,18 +109,18 @@ export class Register implements OnInit, OnDestroy {
 
     if (this.registerForm.valid) {
       this.loadingSignal.set(true);
-      const formData = {
-        name: this.registerForm.value.name,
-        email: this.registerForm.value.email,
-        password: this.registerForm.value.password
-        // NOTE: Never send confirmPassword to backend
-        // NOTE: Never send acceptTerms to backend (it's client-side only)
-      };
+      // const formData = {
+      //   name: this.registerForm.value.name,
+      //   email: this.registerForm.value.email,
+      //   password: this.registerForm.value.password
+      //   // NOTE: Never send confirmPassword to backend
+      //   // NOTE: Never send acceptTerms to backend (it's client-side only)
+      // };
 
       // Simulate API call
       setTimeout(() => {
         this.loadingSignal.set(false);
-        console.log('Registration successful for:', formData.email);
+        // TODO: Implement actual API call to backend with formData
         // TODO: Navigate to login or dashboard
       }, 1500);
     }
