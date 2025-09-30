@@ -19,8 +19,6 @@ COPY --chown=${USERNAME}:${USERNAME} . .
 RUN chown -R ${USER_ID}:${GROUP_ID} ${WORKPATH}
 
 USER ${USERNAME}
-COPY --chown=${USERNAME}:${USERNAME} package*.json ./
-RUN npm install
 RUN npm install @angular/cli
 COPY --chown=${USERNAME}:${USERNAME} . .
 # RUN npm run build
