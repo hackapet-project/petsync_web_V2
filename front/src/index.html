@@ -9,7 +9,20 @@
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="alternate icon" type="image/x-icon" href="favicon.ico">
   <!-- Runtime environment configuration - optional, can be injected at deployment -->
-  <script src="env.js"></script>
+  <script>
+    // Dynamically load env.js if it exists, ignore error if not present
+    (function() {
+      var script = document.createElement('script');
+      script.src = 'env.js';
+      script.onload = function() {
+        // env.js loaded successfully
+      };
+      script.onerror = function() {
+        // env.js not found, ignore error
+      };
+      document.head.appendChild(script);
+    })();
+  </script>
 </head>
 <body>
   <app-root></app-root>
