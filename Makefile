@@ -7,22 +7,21 @@ down:
 build:
 	docker compose build
 
-create_app:
-	docker compose run --rm back python ./manage.py startapp ${i}
-
-test_back:
-	docker compose run --rm back pytest -vv --reuse-db --nomigrations
-
+#Angular commands
 install_front: build
 	rm -rf front/node_modules
 # 	mkdir front/node_modules
 	docker compose run --rm front npm install
 
-angular_scaffolder:
-	docker compose run --rm angular_scaffolder ng new ${i}
+generate_component:
+	docker compose run --rm front npx ng generate component ${i}
 
-django_scaffolder:
-	docker compose run --rm django_scaffolder django-admin startproject core ./back
+#Django commands
+create_app:
+	docker compose run --rm back python ./manage.py startapp ${i}
+
+test_back:
+	docker compose run --rm back pytest -vv --reuse-db --nomigrations
 
 migrations:
 	docker compose run --rm back python manage.py makemigrations
@@ -30,3 +29,10 @@ migrations:
 
 migrate:
 	docker compose run --rm back python manage.py migrate
+
+#Scaffolder commands
+angular_scaffolder:
+	docker compose run --rm angular_scaffolder ng new ${i}
+
+django_scaffolder:
+	docker compose run --rm django_scaffolder django-admin startproject core ./back
