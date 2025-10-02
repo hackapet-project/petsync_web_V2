@@ -1,0 +1,54 @@
+section {
+  background: var(--purple-gradient);
+  color: white;
+  margin-top: 0;
+  padding: 1em;
+  text-align: center;
+  text-wrap: balance;
+  width: 100%;
+  
+  @media (min-width: 768px) {
+    height: 100vh;
+  }
+
+  header {
+    margin: 2em 0;
+    aside {
+      figure { 
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+
+        img {
+          width: 60px;
+          height: 60px;
+          filter: brightness(0) invert(1);
+        }
+      }
+    }
+    
+    h1 {
+      margin: 0;
+      font-weight: 600;
+    }
+  }
+
+  article {
+    margin: 0 auto;
+    width: 60%;
+    /* background-color: aquamarine; */
+  }
+}
+
+@media (min-width: 768px) {
+  section {
+    /* background: none; */
+    /* background-color: blue; */
+    display: flex;
+    flex-direction: column;
+    place-content: center;
+    /* width: 100%;
+    min-width: 100%; */
+  }
+}
