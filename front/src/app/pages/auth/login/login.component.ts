@@ -1,16 +1,24 @@
 import { Component, OnInit, ElementRef, ViewChild, inject, signal, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
 import { Subject, takeUntil } from 'rxjs';
-import { AuthService, LoginCredentials } from '../../core/services/auth.service';
-import { LoadingService } from '../../core/services/loading.service';
-import { LoginError } from '../../core/services/error-handler.service';
-import { CustomValidators } from '../../core/validators/custom-validators';
+import { AuthService, LoginCredentials } from '../../../core/services/auth.service';
+import { LoadingService } from '../../../core/services/loading.service';
+import { LoginError } from '../../../core/services/error-handler.service';
+import { CustomValidators } from '../../../core/validators/custom-validators';
+import { Brand } from '../../../components/brand/brand';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [
+    CommonModule, 
+    ReactiveFormsModule,
+    Brand,
+    MatIconModule
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -32,6 +40,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   private readonly formBuilder = inject(FormBuilder);
   private readonly authService = inject(AuthService);
   private readonly loadingService = inject(LoadingService);
+  private router = inject(Router)
 
   // Computed loading state from service
   readonly loading = this.loadingService.loading;
@@ -83,7 +92,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       ).subscribe({
         next: (response) => {
           if (response.success) {
-            // TODO: Navigate to dashboard or intended page
+            this.router.navigate(['/dashboard'])
           } else if (response.error) {
             this.errorSignal.set(response.error);
           }
@@ -131,7 +140,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     });
   }
 
-  togglePasswordVisibility(): void {
+  togglePasswordVisibility(event?: Event): void {
+    event?.preventDefault(); // Prevent any default behavior
+    event?.stopPropagation();
     this.isPasswordVisible = !this.isPasswordVisible;
   }
 

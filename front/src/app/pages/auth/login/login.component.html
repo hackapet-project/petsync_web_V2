@@ -1,0 +1,110 @@
+<main class="login-container" role="main">
+  <!-- Left side - Purple background with logo and text -->
+  <app-brand/>
+
+  <!-- Right side - Login form -->
+  <section class="form-section right-panel" aria-label="Formulario de inicio de sesión">
+    <article class="form-container">
+      <header class="form-header">
+        <h1 id="login-title">Iniciar sesión</h1>
+        <p>Accede a tu cuenta para gestionar el refugio</p>
+      </header>
+
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form" aria-labelledby="login-title">
+        <fieldset class="form-group">
+          <label for="email">Correo electrónico</label>
+          <div class="input-wrapper">
+            <input
+              type="email"
+              autocomplete="off"
+              id="email"
+              formControlName="email"
+              placeholder="tu@ejemplo.com"
+              [class.error]="getFieldError('email')"
+              tabindex="1"
+              aria-required="true"
+            >
+            <!-- <mat-icon svgIcon="mail"></mat-icon> -->
+            <mat-icon svgIcon="mail"/>
+          </div>
+          @if (getFieldError('email')) {
+            <small class="error error-message" id="email-error" role="alert">{{ getFieldError('email') }}</small>
+          } @else {
+            <small class="help-text" id="email-help">Ingresa tu correo electrónico registrado</small>
+          }
+        </fieldset>
+
+        <fieldset class="form-group">
+          <label for="password">Contraseña</label>
+          <div class="input-wrapper">
+            <input
+              [type]="isPasswordVisible ? 'text' : 'password'"
+              id="password"
+              formControlName="password"
+              placeholder="Tu contraseña"
+              tabindex="2"
+              spellcheck="false"
+            >
+            <button
+              type="button"
+              class="password-toggle"
+              (click)="togglePasswordVisibility($event)"
+              tabindex="3"
+            >
+              @if (isPasswordVisible) {
+                <mat-icon svgIcon="eye"/>
+              } @else {
+                <mat-icon svgIcon="closed_eye"/>
+              }
+            </button>
+          </div>
+          @if (getFieldError('password')) {
+            <small class="error error-message" id="password-error" role="alert">{{ getFieldError('password') }}</small>
+          } @else {
+            <small class="help-text" id="password-help">Mínimo 6 caracteres</small>
+          }
+        </fieldset>
+
+        <!-- <aside class="forgot-password"> -->
+        <p><a href="#" class="forgot-link" tabindex="4">¿Olvidaste tu contraseña?</a></p>
+        <!-- </aside> -->
+
+        <button
+          type="submit"
+          class="login-button"
+          [disabled]="loginForm.invalid || isCurrentlyLoading()"
+          tabindex="5"
+          [attr.aria-describedby]="isCurrentlyLoading() ? 'loading-status' : null"
+        >
+          @if (isCurrentlyLoading()) {
+            <span class="spinner" aria-hidden="true"></span>
+            <span id="loading-status" aria-live="polite">Iniciando sesión...</span>
+          } @else {
+            Iniciar sesión
+          }
+        </button>
+      </form>
+      <div class="divider">
+        <hr> <span>o inicia sesión con</span> <hr>
+      </div>
+
+      <nav class="oauth-buttons">
+        <button
+          type="button"
+          class="oauth-button google"
+          (click)="onGoogleLogin()"
+          [disabled]="isCurrentlyLoading()"
+          tabindex="6"
+        >
+          <mat-icon svgIcon="google"/>
+          Continuar con Google
+        </button>
+      </nav>
+
+      <footer class="signup-link">
+        <span>¿Nuevo en la plataforma? </span>
+        <a href="#" class="signup-text" tabindex="7">Conoce más aquí</a>
+      </footer>
+    </article>
+  </section>
+</main>
