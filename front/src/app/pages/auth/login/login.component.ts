@@ -9,13 +9,17 @@ import { LoginError } from '../../../core/services/error-handler.service';
 import { CustomValidators } from '../../../core/validators/custom-validators';
 import { Brand } from '../../../components/brand/brand';
 import { Router } from '@angular/router';
+import { FormGeneratorComponent } from '../../../components/form-generator/form-generator';
+import { FormConfig } from '../../../components/form-generator/interfaces';
+import { loginFormConfig } from '../../../components/form-generator/forms_scaffolders/login';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [
-    CommonModule, 
+    CommonModule,
     ReactiveFormsModule,
+    FormGeneratorComponent,
     Brand,
     MatIconModule
   ],
@@ -26,7 +30,7 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit, OnDestroy {
   @ViewChild('emailInput') emailInput!: ElementRef;
 
-  loginForm: FormGroup;
+  loginConfig: FormConfig = loginFormConfig;
   isPasswordVisible = false;
 
   // Unsubscribe subject for cleanup
@@ -37,7 +41,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   readonly error = this.errorSignal.asReadonly();
 
   // Services
-  private readonly formBuilder = inject(FormBuilder);
   private readonly authService = inject(AuthService);
   private readonly loadingService = inject(LoadingService);
   private router = inject(Router)
@@ -45,20 +48,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   // Computed loading state from service
   readonly loading = this.loadingService.loading;
 
-  constructor() {
-    this.loginForm = this.formBuilder.group({
-      email: ['', [
-        Validators.required,
-        CustomValidators.noWhitespace(),
-        CustomValidators.emailFormat()
-      ]],
-      password: ['', [
-        Validators.required,
-        CustomValidators.noWhitespace(),
-        Validators.minLength(6)
-      ]]
-    });
-  }
+  constructor() { }
 
   ngOnInit(): void {
     // Focus management and accessibility setup
@@ -70,49 +60,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     }, 100);
   }
 
-  onSubmit(): void {
-    // Clear any previous errors
+  onSubmit(event: Event): void {
     this.errorSignal.set(null);
 
-    // Always mark form as touched to show validation errors
-    this.markFormGroupTouched();
-
-    if (this.loginForm.valid) {
-      const credentials: LoginCredentials = {
-        email: this.loginForm.value.email,
-        password: this.loginForm.value.password
-      };
-
-      // DO NOT log credentials including passwords
-      // For e2e testing, you may log the email address only (if needed):
-      // console.log('Login attempt for email:', credentials.email);
-
-      this.authService.login(credentials).pipe(
-        takeUntil(this.destroy$)
-      ).subscribe({
-        next: (response) => {
-          if (response.success) {
-            this.router.navigate(['/dashboard'])
-          } else if (response.error) {
-            this.errorSignal.set(response.error);
-          }
-        },
-        error: (_error) => {
-          // This shouldn't happen with our current implementation
-          // but good to have as a fallback
-          this.errorSignal.set({
-            type: 'server',
-            message: 'Error inesperado. Intenta nuevamente.',
-            code: 'UNEXPECTED_ERROR'
-          });
-        }
-      });
-    }
-  }
-
-  // Method to force submit form for testing purposes
-  forceSubmit(): void {
-    this.onSubmit();
+    this.router.navigate(['/dashboard'])
   }
 
   onGoogleLogin(): void {
@@ -138,61 +89,6 @@ export class LoginComponent implements OnInit, OnDestroy {
         });
       }
     });
-  }
-
-  togglePasswordVisibility(event?: Event): void {
-    event?.preventDefault(); // Prevent any default behavior
-    event?.stopPropagation();
-    this.isPasswordVisible = !this.isPasswordVisible;
-  }
-
-  getFieldError(fieldName: string): string | null {
-    const field = this.loginForm.get(fieldName);
-    if (field && field.invalid && (field.dirty || field.touched)) {
-      const errors = field.errors;
-      if (!errors) return null;
-
-      // Priority order for error messages
-      if (errors['required']) {
-        return `${this.getFieldDisplayName(fieldName)} es requerido`;
-      }
-      if (errors['whitespace']) {
-        return `${this.getFieldDisplayName(fieldName)} no puede estar vacío`;
-      }
-      if (errors['emailFormat']) {
-        return 'Ingresa un correo electrónico válido';
-      }
-      if (errors['email']) {
-        return 'Ingresa un correo electrónico válido';
-      }
-      if (errors['minlength']) {
-        const requiredLength = errors['minlength'].requiredLength;
-        return `La contraseña debe tener al menos ${requiredLength} caracteres`;
-      }
-      if (errors['strongPassword']) {
-        return 'La contraseña debe contener mayúsculas, minúsculas, números y caracteres especiales';
-      }
-    }
-    return null;
-  }
-
-  private getFieldDisplayName(fieldName: string): string {
-    const displayNames: Record<string, string> = {
-      email: 'Correo electrónico',
-      password: 'Contraseña'
-    };
-    return displayNames[fieldName] || fieldName;
-  }
-
-  private markFormGroupTouched(): void {
-    Object.keys(this.loginForm.controls).forEach(key => {
-      const control = this.loginForm.get(key);
-      control?.markAsTouched();
-    });
-  }
-
-  clearError(): void {
-    this.errorSignal.set(null);
   }
 
   // Helper method to check if currently loading

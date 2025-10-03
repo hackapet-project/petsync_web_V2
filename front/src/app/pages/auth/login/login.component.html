@@ -1,8 +1,6 @@
 <main class="login-container" role="main">
-  <!-- Left side - Purple background with logo and text -->
   <app-brand/>
 
-  <!-- Right side - Login form -->
   <section class="form-section right-panel" aria-label="Formulario de inicio de sesión">
     <article class="form-container">
       <header class="form-header">
@@ -10,7 +8,12 @@
         <p>Accede a tu cuenta para gestionar el refugio</p>
       </header>
 
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form" aria-labelledby="login-title">
+      <app-form-generator
+        [config]="loginConfig"
+        (formSubmit)="onSubmit($event)">
+      ></app-form-generator>
+
+      <!-- <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form" aria-labelledby="login-title">
         <fieldset class="form-group">
           <label for="email">Correo electrónico</label>
           <div class="input-wrapper">
@@ -24,7 +27,6 @@
               tabindex="1"
               aria-required="true"
             >
-            <!-- <mat-icon svgIcon="mail"></mat-icon> -->
             <mat-icon svgIcon="mail"/>
           </div>
           @if (getFieldError('email')) {
@@ -65,9 +67,7 @@
           }
         </fieldset>
 
-        <!-- <aside class="forgot-password"> -->
-        <p><a href="#" class="forgot-link" tabindex="4">¿Olvidaste tu contraseña?</a></p>
-        <!-- </aside> -->
+        
 
         <button
           type="submit"
@@ -83,7 +83,8 @@
             Iniciar sesión
           }
         </button>
-      </form>
+      </form> -->
+      <p><a href="#" class="forgot-link" tabindex="4">¿Olvidaste tu contraseña?</a></p>
       <div class="divider">
         <hr> <span>o inicia sesión con</span> <hr>
       </div>
@@ -97,7 +98,7 @@
           tabindex="6"
         >
           <mat-icon svgIcon="google"/>
-          Continuar con Google
+          Google
         </button>
       </nav>
 
