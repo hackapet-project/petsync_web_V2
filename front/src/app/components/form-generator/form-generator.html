@@ -1,0 +1,115 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-generator">
+  <div *ngFor="let field of config.fields" class="form-field">
+    
+    <!-- Text, Email, Password, Number, Tel inputs -->
+    <fieldset *ngIf="field.type === 'text' || field.type === 'email' || field.type === 'password' || field.type === 'number' || field.type === 'tel'">
+      <label [for]="field.name">
+        {{ field.label }}
+        <span *ngIf="field.required" class="required">*</span>
+      </label>
+      
+      <div class="input-wrapper">
+        <!-- Prefix Icon -->
+        <mat-icon *ngIf="field.prefixIcon" class="prefix-icon">{{ field.prefixIcon }}</mat-icon>
+        
+        <input
+          [id]="field.name"
+          [type]="getInputType(field)"
+          [formControlName]="field.name"
+          [placeholder]="field.placeholder || ''"
+          [class.error]="hasError(field.name)"
+          [class.with-prefix]="field.prefixIcon"
+          [class.with-suffix]="field.suffixIcon || (field.type === 'password' && field.showPasswordToggle)"
+        />
+        
+        <!-- Suffix Icon (regular) -->
+        <mat-icon *ngIf="field.suffixIcon && !(field.type === 'password' && field.showPasswordToggle)" class="suffix-icon">
+          {{ field.suffixIcon }}
+        </mat-icon>
+        
+        <!-- Password Toggle Button -->
+        <button
+          *ngIf="field.type === 'password' && field.showPasswordToggle"
+          type="button"
+          class="password-toggle"
+          (click)="togglePasswordVisibility(field.name)"
+          [attr.aria-label]="passwordVisibility[field.name] ? 'Hide password' : 'Show password'"
+        >
+          <mat-icon>{{ passwordVisibility[field.name] ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+      </div>
+      
+      <span class="error-message">
+        {{ getErrorMessage(field.name) }}
+      </span>
+    </fieldset>
+
+    <!-- Textarea -->
+    <fieldset *ngIf="field.type === 'textarea'">
+      <label [for]="field.name">
+        {{ field.label }}
+        <span *ngIf="field.required" class="required">*</span>
+      </label>
+      <div class="input-wrapper">
+        <mat-icon *ngIf="field.prefixIcon" class="prefix-icon textarea-icon">{{ field.prefixIcon }}</mat-icon>
+        <textarea
+          [id]="field.name"
+          [formControlName]="field.name"
+          [placeholder]="field.placeholder || ''"
+          [class.error]="hasError(field.name)"
+          [class.with-prefix]="field.prefixIcon"
+          rows="4"
+        ></textarea>
+      </div>
+      <span class="error-message">
+        {{ getErrorMessage(field.name) }}
+      </span>
+    </fieldset>
+
+    <!-- Select -->
+    <fieldset *ngIf="field.type === 'select'">
+      <label [for]="field.name">
+        {{ field.label }}
+        <span *ngIf="field.required" class="required">*</span>
+      </label>
+      <div class="input-wrapper">
+        <mat-icon *ngIf="field.prefixIcon" class="prefix-icon">{{ field.prefixIcon }}</mat-icon>
+        <select
+          [id]="field.name"
+          [formControlName]="field.name"
+          [class.error]="hasError(field.name)"
+          [class.with-prefix]="field.prefixIcon"
+        >
+          <option value="">Select an option</option>
+          <option *ngFor="let option of field.options" [value]="option.value">
+            {{ option.label }}
+          </option>
+        </select>
+      </div>
+      <span class="error-message">
+        {{ getErrorMessage(field.name) }}
+      </span>
+    </fieldset>
+
+    <!-- Checkbox -->
+    <fieldset *ngIf="field.type === 'checkbox'" class="checkbox-field">
+      <label [for]="field.name">
+        <input
+          [id]="field.name"
+          type="checkbox"
+          [formControlName]="field.name"
+        />
+        <span>{{ field.label }}</span>
+        <span *ngIf="field.required" class="required">*</span>
+      </label>
+      <span class="error-message">
+        {{ getErrorMessage(field.name) }}
+      </span>
+    </fieldset>
+
+  </div>
+
+  <button [disabled]="form.invalid" type="submit" class="submit-btn">
+    {{ config.submitButtonText || 'Submit' }}
+  </button>
+</form>
