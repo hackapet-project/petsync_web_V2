@@ -20,6 +20,10 @@ html, body {
   box-sizing: border-box;
 }
 
+main {
+  min-height: 100vh;
+}
+
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
