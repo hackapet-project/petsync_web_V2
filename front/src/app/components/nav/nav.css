@@ -1,0 +1,59 @@
+aside {
+  display: flex;
+  flex-direction: column;
+  width: 16em;
+  
+  header {
+    background-color: rgb(102, 102, 223);
+    box-sizing: border-box;
+    display: flex;
+    place-content: center;
+    color: white;
+    height: 4em;
+    /* text-align: center; */
+  }
+  
+  nav {
+    align-items: center;
+    border-right: 1px solid rgba(39, 47, 71, 0.509);
+    display: inherit;
+    flex-direction: inherit;
+    margin-top: 1em;
+    gap: 1rem;
+
+
+    a.active {
+      background-color: rgba(154, 170, 215, 0.632);
+      border-right: 2px solid rgb(39, 47, 71);
+      color: rgb(39, 47, 71);
+    }
+
+    a {
+      align-items: center;
+      border-radius: 0.5rem;
+      color: #374151;
+      display: inherit;
+      text-decoration: none;
+      padding: .7em;
+      text-align: center;
+      transition: background-color 0.2s, color 0.2s;
+      width: 80%;
+
+      &:hover {
+        background-color: #b3c0d5;
+        cursor: pointer;
+      }
+
+      span {}
+
+      mat-icon {
+        margin-right: .8em;
+      }
+    }
+
+    div {
+      align-items: center;
+      display: flex;
+    }
+  }
+}

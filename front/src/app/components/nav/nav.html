@@ -1,0 +1,15 @@
+<!-- aside.component.html -->
+<aside class="sidebar">
+  <header>
+    <h2>Refupet</h2>
+  </header>
+  <nav>
+      <a *ngFor="let item of navItems"
+      [routerLink]="item.route" routerLinkActive="active">
+        <div>
+          <mat-icon>{{ item.icon }}</mat-icon>
+          <span>{{ item.label }}</span>
+        </div>
+        </a>
+  </nav>
+</aside>
