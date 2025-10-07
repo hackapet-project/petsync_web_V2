@@ -1,9 +1,5 @@
 export type UserRole = 'admin' | 'moderator' | 'regular';
 
-export interface NavConfig {
-  [role: string]: NavItem[];
-}
-
 export interface NavItem {
   label: string;
   icon: string;
@@ -11,28 +7,55 @@ export interface NavItem {
   permission?: string[];
 }
 
-export const config: NavConfig = {
-  admin: [
-    { label: 'Inicio', icon: 'home', route: '/shelters' },
-    { label: 'Animales', icon: 'pets', route: '/animals' },
-    { label: 'Usuarios', icon: 'people', route: '/users' },
-    { label: 'Accounts', icon: 'account_circle', route: '/accounts' },
-    { label: 'Reports', icon: 'assessment', route: '/reports' },
-    { label: 'Configuración', icon: 'settings', route: '/settings' },
-  ],
-  moderator: [
-    { label: 'Inicio', icon: 'home', route: '/dashboard' },
-    { label: 'Animales', icon: 'pets', route: '/animals' },
-    { label: 'Adopciones', icon: 'favorite', route: '/animals' },
-    { label: 'Voluntarios', icon: 'people', route: '/volunteers' },
-    { label: 'Calendario', icon: 'today', route: '/callendar' },
-    { label: 'Configuración', icon: 'settings', route: '/settings' },
+export interface RoleConfig {
+  navigation: NavItem[];
+  widgets: WidgetConfig[];
+}
 
-  ],
-  regular: [
-    { label: 'Inicio', icon: 'home', route: '/dashboard' },
-    { label: 'Animals', icon: 'pets', route: '/animals' },
-    { label: 'My Profile', icon: 'account_circle', route: '/profile' },
-    { label: 'Configuración', icon: 'settings', route: '/settings' },
-  ]
+export interface WidgetConfig {
+  component: string; // Component class name
+  position?: number; // Optional: for ordering
+  config?: any; // Optional: widget-specific configuration
+}
+
+export interface NavConfig {
+  [role: string]: RoleConfig;
+}
+
+export const config: NavConfig = {
+  admin: {
+    navigation: [
+      { label: 'Inicio', icon: 'home', route: '/shelters' },
+      { label: 'Animales', icon: 'pets', route: '/animals' },
+      { label: 'Usuarios', icon: 'people', route: '/users' },
+      { label: 'Accounts', icon: 'account_circle', route: '/accounts' },
+      { label: 'Reports', icon: 'assessment', route: '/reports' },
+      { label: 'Configuración', icon: 'settings', route: '/settings' },
+    ],
+    widgets: [
+      { component: 'AnimalList', position: 1 },
+      // { component: 'EventsWidgetComponent', position: 2 },
+      // { component: 'ReportsWidgetComponent', position: 3 },
+    ]
+  },
+  moderator: {
+    navigation: [
+      { label: 'Inicio', icon: 'home', route: '/dashboard' },
+      { label: 'Animales', icon: 'sound_detection_dog_barking', route: '/animals' },
+      { label: 'Adopciones', icon: 'book', route: '/adoptions' },
+      { label: 'Voluntarios', icon: 'people', route: '/volunteers' },
+      { label: 'Calendario', icon: 'today', route: '/callendar' },
+      { label: 'Configuración', icon: 'settings', route: '/settings' },
+    ],
+    widgets: []
+  },
+  regular: {
+    navigation: [
+      { label: 'Inicio', icon: 'home', route: '/dashboard' },
+      { label: 'Animals', icon: 'pets', route: '/animals' },
+      { label: 'My Profile', icon: 'account_circle', route: '/profile' },
+      { label: 'Configuración', icon: 'settings', route: '/settings' },
+    ],
+    widgets: []
+  }
 };
