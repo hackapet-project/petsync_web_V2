@@ -1,13 +1,18 @@
 <!-- aside.component.html -->
 <aside class="sidebar">
   <header>
+    <mat-icon
+      fontSet="material-symbols-outlined"
+    >favorite</mat-icon>
     <h2>Refupet</h2>
   </header>
   <nav>
       <a *ngFor="let item of navItems"
-      [routerLink]="item.route" routerLinkActive="active">
+      [routerLink]="item.route" routerLinkActive="active" (click)="setActiveRoute(item.label)">
         <div>
-          <mat-icon>{{ item.icon }}</mat-icon>
+          <mat-icon 
+          fontSet="material-symbols-outlined"
+          >{{ item.icon }}</mat-icon>
           <span>{{ item.label }}</span>
         </div>
         </a>

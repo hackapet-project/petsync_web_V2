@@ -1,0 +1,48 @@
+<section>
+  <h3>Animales Recientes</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Especie</th>
+        <th>Edad</th>
+        <th>Detalles</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let animal of paginatedAnimals" class="animal-item">
+        <td>
+          <div>
+            <div class="avatar" [ngStyle]="{ 'background-color': getColor(animal.name) }">
+              {{ animal.name.charAt(0).toUpperCase() }}
+            </div>
+            <span>{{ animal.name }}</span>
+          </div>
+        </td>
+        <td>{{ animal.species }}</td>
+        <td>{{ animal.age }}</td>
+        <td><a href="">Detalles</a></td>
+      </tr>
+    </tbody>
+  </table>
+  <nav>
+    <button (click)="previousPage()" [disabled]="currentPage === 1" class="pagination-btn">
+      Anterior
+    </button>
+
+    <div class="page-numbers">
+      <button *ngFor="let page of visiblePages" (click)="goToPage(page)" [class.active]="currentPage === page"
+        [class.ellipsis]="typeof page === 'string'" [disabled]="typeof page === 'string'" class="page-number-btn">
+        {{ page }}
+      </button>
+    </div>
+
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages" class="pagination-btn">
+      Siguiente
+    </button>
+
+    <!-- <span class="page-info">
+      Página {{ currentPage }} de {{ totalPages }}
+    </span> -->
+  </nav>
+</section>

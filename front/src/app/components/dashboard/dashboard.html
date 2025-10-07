@@ -1,53 +1,7 @@
 <!-- dashboard.component.html -->
-<section class="dashboard">
-  <header>
-    <h1>Dashboard</h1>
-  </header>
-
-  @if (isLoading) {
-    <div *ngIf="isLoading" class="loading">
-      Loading dashboard...
-    </div>
-  }
-
-    <!-- <div *ngFor="let widget of widgets" 
-         class="widget widget-{{ widget.type }}"
-         [class.clickable]="widget.route"
-         [routerLink]="widget.route">
-      
-      <div *ngIf="widget.type === 'stat'" class="stat-card">
-        <i class="material-icons">{{ widget.icon }}</i>
-        <div class="stat-content">
-          <h3>{{ getStatCount(widget) }}</h3>
-          <p>{{ widget.title }}</p>
-        </div>
-      </div>
-
-      <div *ngIf="widget.type === 'list'" class="list-card">
-        <div class="card-header">
-          <i class="material-icons">{{ widget.icon }}</i>
-          <h3>{{ widget.title }}</h3>
-        </div>
-        <ul class="item-list">
-          <li *ngFor="let item of getWidgetData(widget).slice(0, 5)">
-            {{ item.name }}
-          </li>
-        </ul>
-        <a *ngIf="widget.route" [routerLink]="widget.route" class="view-all">
-          View All →
-        </a>
-      </div>
-
-      <div *ngIf="widget.type === 'detail'" class="detail-card">
-        <div class="card-header">
-          <i class="material-icons">{{ widget.icon }}</i>
-          <h3>{{ widget.title }}</h3>
-        </div>
-        <div *ngIf="getWidgetData(widget)[0] as shelter" class="detail-content">
-          <h2>{{ shelter.name }}</h2>
-          <p>{{ shelter.address }}</p>
-          <p>{{ shelter.phone }}</p>
-        </div>
-      </div> -->
-
-</section>
+<header>
+  <h2>{{ pageTitle() }}</h2>
+</header>
+<main>
+  <animals-widget/>
+</main>

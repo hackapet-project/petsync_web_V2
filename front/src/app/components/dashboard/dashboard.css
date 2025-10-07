@@ -1,0 +1,15 @@
+header {
+  color: rgb(47, 47, 47);
+  padding: 0 1em;
+  border-bottom: 1px solid #e0e0e0;
+  max-width: 100vw;
+  width: 86.7vw;
+  /* background-color: blue; */
+}
+
+main {
+  background-color: #e6e6e689;
+  padding: 2em;
+  /* max-width: 100%; */
+  header { }
+}

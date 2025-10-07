@@ -1,12 +1,10 @@
 // services/navigation.service.ts
-import { inject, Injectable } from '@angular/core';
 import { Component } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { config, NavConfig, NavItem, UserRole } from './config';
-import { Router, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Nav as NavService } from '../../core/services/nav/nav';
 import { MatIcon } from '@angular/material/icon';
+import { NavItem } from '../../core/services/nav/config';
 
 @Component({
   selector: 'app-nav',
@@ -20,17 +18,17 @@ import { MatIcon } from '@angular/material/icon';
   standalone: true,
 })
 export class Nav {
-  private userRole$ = new BehaviorSubject<UserRole>('regular');
-  private router = inject(Router)
-  private navigationConfig: NavConfig = config
-
   navItems: NavItem[] = [];
 
-  constructor(private navigationService: NavService) {}
+  constructor(private navService: NavService) {}
 
   ngOnInit() {
-    this.navigationService.getNavigationItems().subscribe(items => {
+    this.navService.getNavigationItems().subscribe(items => {
       this.navItems = items;
     });
+  }
+
+  setActiveRoute(title: string) {
+    this.navService.setTitle(title)
   }
 }

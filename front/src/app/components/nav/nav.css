@@ -8,23 +8,35 @@ aside {
     box-sizing: border-box;
     display: flex;
     place-content: center;
+    align-items: center;
     color: white;
-    height: 4em;
-    /* text-align: center; */
+
+    mat-icon {
+      display: flex;
+      align-items: center;
+      width: 62px;
+      height: 62px;
+      aspect-ratio: 1/1;
+      font-size: 45px;
+
+      font-variation-settings: 'FILL' 0, 'wght' 200, 'GRAD' 0, 'opsz' 24;
+    }
   }
   
   nav {
     align-items: center;
-    border-right: 1px solid rgba(39, 47, 71, 0.509);
+    /* #e0e0e0 */
+    /* border-right: 1px solid rgba(39, 47, 71, 0.509); */
+    /* border-right: 1px solid #e0e0e0; */
     display: inherit;
     flex-direction: inherit;
-    margin-top: 1em;
+    padding: 1em 0;
     gap: 1rem;
 
 
     a.active {
       background-color: rgba(154, 170, 215, 0.632);
-      border-right: 2px solid rgb(39, 47, 71);
+      /* border-right: 2px solid rgb(39, 47, 71); */
       color: rgb(39, 47, 71);
     }
 

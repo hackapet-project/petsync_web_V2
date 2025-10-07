@@ -1,45 +1,28 @@
-import { Component } from '@angular/core';
+import { Component, inject, output, signal } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
+import { Nav as NavService } from '../../core/services/nav/nav';
+import { Animal, animals } from '../../core/utils/animal_mocks';
+import { CommonModule } from '@angular/common';
+import { AnimalList } from '../widgets/animal-list/animal-list';
 
 @Component({
-  selector: 'app-dashboard',
-  imports: [],
+  selector: 'app-dash',
+  imports: [
+    RouterModule,
+    CommonModule,
+    AnimalList
+  ],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css'
 })
 export class Dashboard {
-  public isLoading: boolean = true
-
-  // constructor(private dashboardService: DashboardService) {}
-
-
-  // ngOnInit() {
-  //   this.userRole = localStorage.getItem('userRole') || 'regular';
-  //   this.loadDashboard();
-  // }
-
-  // loadDashboard() {
-  //   // Get configuration for this user role
-  //   const config = this.dashboardService.getDashboardConfig(this.userRole);
-  //   this.widgets = config.widgets;
-
-  //   // Load all necessary data
-  //   this.dashboardService.loadDashboardData(this.userRole).subscribe(
-  //     data => {
-  //       this.dashboardData = data;
-  //       this.isLoading = false;
-  //     },
-  //     error => {
-  //       console.error('Error loading dashboard:', error);
-  //       this.isLoading = false;
-  //     }
-  //   );
-  // }
-
-  // getWidgetData(widget: Widget): any[] {
-  //   return this.dashboardData[widget.dataSource] || [];
-  // }
-
-  // getStatCount(widget: Widget): number {
-  //   return this.getWidgetData(widget).length;
-  // }
+  private navService = inject(NavService);
+  public pageTitle = signal('Inicio');
+  
+  // title: string = 
+  constructor() {
+    this.navService.title$.subscribe(title => {
+      this.pageTitle.set(title);
+    });
+  }
 }
