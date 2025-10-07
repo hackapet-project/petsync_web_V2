@@ -23,4 +23,8 @@ ANIMAL_STATUS_CHOICES = [
     # Estados finales
     ("deceased", "Deceased"),
     ("euthanized", "Euthanized"),
+
+    ("pre_intake", "Awaiting Intake / Scheduled Intake"),
+    ("transferred", "Transferred to Another Shelter"),
+    ("trial_adoption", "In Trial Adoption / Foster-to-Adopt"),
 ]
