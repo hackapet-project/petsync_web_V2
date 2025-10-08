@@ -1,13 +1,18 @@
 // routes.config.ts
 import { Routes } from '@angular/router';
 import { Dashboard } from './components/dashboard/dashboard';
+import { Animals } from './components/animals/animals';
 
 export const PROTECTED_ROUTES: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-  { path: 'dashboard', component: Dashboard },
-  { path: 'animals', component: Dashboard },
-  { path: 'adoptions', component: Dashboard },
-  { path: 'volunteers', component: Dashboard },
-  { path: 'callendar', component: Dashboard },
-  { path: 'settings', component: Dashboard },
+  { 
+    path: 'dashboard', 
+    component: Dashboard, // or create a proper DashboardContent component
+    data: { title: 'Inicio' }
+  },
+  { path: 'animals', component: Animals, data: { title: 'Animales' } },
+  { path: 'adoptions', component: Animals, data: { title: 'Adopciones' } },
+  { path: 'volunteers', component: Animals, data: { title: 'Voluntarios' } },
+  { path: 'callendar', component: Animals, data: { title: 'Calendario' } },
+  { path: 'settings', component: Animals, data: { title: 'Configuración' } },
 ];
