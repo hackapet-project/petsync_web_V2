@@ -1,7 +1,7 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ErrorHandlerService, LoginError } from './error-handler.service';
-import { LoadingService } from './loading.service';
+import { ErrorHandlerService, LoginError } from '../error-handler.service';
+import { LoadingService } from '../loading.service';
 
 export interface LoginCredentials {
   email: string;

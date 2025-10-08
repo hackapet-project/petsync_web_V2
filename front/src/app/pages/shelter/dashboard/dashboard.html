@@ -1,5 +1,14 @@
-<p>dashboard works!</p>
-<app-form-generator
-  [config]="myFormConfig"
-  (formSubmit)="handleFormSubmission($event)">
-/>
+<main>
+  <app-nav />
+  <section>
+    <header>
+      <h2>{{ pageTitle() }}</h2>
+    </header>
+    <main>
+      <!-- <div #widgetContainer></div> -->
+      <ng-template #widgetContainer>
+      </ng-template>
+      <router-outlet></router-outlet>
+    </main>
+  </section>
+</main>

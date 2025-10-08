@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { Subject, takeUntil } from 'rxjs';
-import { AuthService, LoginCredentials } from '../../../core/services/auth.service';
+import { AuthService, LoginCredentials } from '../../../core/services/auth/auth.service';
 import { LoadingService } from '../../../core/services/loading.service';
 import { LoginError } from '../../../core/services/error-handler.service';
 import { CustomValidators } from '../../../core/validators/custom-validators';
