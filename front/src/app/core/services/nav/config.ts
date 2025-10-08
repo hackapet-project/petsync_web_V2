@@ -47,7 +47,11 @@ export const config: NavConfig = {
       { label: 'Calendario', icon: 'today', route: '/callendar' },
       { label: 'Configuración', icon: 'settings', route: '/settings' },
     ],
-    widgets: []
+    widgets: [
+      // { component: 'AnimalList', position: 2 },
+      { component: 'AnimalList', position: 1 },
+      // { component: 'AnimalList', position: 3 },
+    ]
   },
   regular: {
     navigation: [
