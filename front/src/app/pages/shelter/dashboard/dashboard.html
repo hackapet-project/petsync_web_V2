@@ -1,4 +1,14 @@
 <main>
- <app-nav/>
- <app-dash></app-dash>
+  <app-nav />
+  <section>
+    <header>
+      <h2>{{ pageTitle() }}</h2>
+    </header>
+    <main>
+      <!-- <div #widgetContainer></div> -->
+      <ng-template #widgetContainer>
+      </ng-template>
+      <router-outlet></router-outlet>
+    </main>
+  </section>
 </main>
