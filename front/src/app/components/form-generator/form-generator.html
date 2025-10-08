@@ -23,7 +23,7 @@
         />
         
         <!-- Suffix Icon (regular) -->
-        <mat-icon *ngIf="field.suffixIcon && !(field.type === 'password' && field.showPasswordToggle)" class="suffix-icon">
+        <mat-icon fontSet="material-symbols-outlined" *ngIf="field.suffixIcon && !(field.type === 'password' && field.showPasswordToggle)" class="suffix-icon">
           {{ field.suffixIcon }}
         </mat-icon>
         
@@ -35,7 +35,7 @@
           (click)="togglePasswordVisibility(field.name)"
           [attr.aria-label]="passwordVisibility[field.name] ? 'Hide password' : 'Show password'"
         >
-          <mat-icon>{{ passwordVisibility[field.name] ? 'visibility_off' : 'visibility' }}</mat-icon>
+          <mat-icon fontSet="material-symbols-outlined" >{{ passwordVisibility[field.name] ? 'visibility_off' : 'visibility' }}</mat-icon>
         </button>
       </div>
       

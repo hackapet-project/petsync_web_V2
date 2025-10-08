@@ -7,7 +7,7 @@ export const loginFormConfig: FormConfig = {
         label: 'Email',
         type: 'email',
         placeholder: 'tu.email@example.com',
-        suffixIcon: 'email',
+        suffixIcon: 'mail',
         required: true
       },
       {
@@ -16,7 +16,7 @@ export const loginFormConfig: FormConfig = {
         type: 'password',
         placeholder: 'Tu contraseña',
         showPasswordToggle: true,
-        // suffixIcon: 'eye',
+        suffixIcon: 'eye',
         required: true,
         minLength: 8
       }

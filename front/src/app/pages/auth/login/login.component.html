@@ -12,78 +12,7 @@
         [config]="loginConfig"
         (formSubmit)="onSubmit($event)">
       ></app-form-generator>
-
-      <!-- <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form" aria-labelledby="login-title">
-        <fieldset class="form-group">
-          <label for="email">Correo electrónico</label>
-          <div class="input-wrapper">
-            <input
-              type="email"
-              autocomplete="off"
-              id="email"
-              formControlName="email"
-              placeholder="tu@ejemplo.com"
-              [class.error]="getFieldError('email')"
-              tabindex="1"
-              aria-required="true"
-            >
-            <mat-icon svgIcon="mail"/>
-          </div>
-          @if (getFieldError('email')) {
-            <small class="error error-message" id="email-error" role="alert">{{ getFieldError('email') }}</small>
-          } @else {
-            <small class="help-text" id="email-help">Ingresa tu correo electrónico registrado</small>
-          }
-        </fieldset>
-
-        <fieldset class="form-group">
-          <label for="password">Contraseña</label>
-          <div class="input-wrapper">
-            <input
-              [type]="isPasswordVisible ? 'text' : 'password'"
-              id="password"
-              formControlName="password"
-              placeholder="Tu contraseña"
-              tabindex="2"
-              spellcheck="false"
-            >
-            <button
-              type="button"
-              class="password-toggle"
-              (click)="togglePasswordVisibility($event)"
-              tabindex="3"
-            >
-              @if (isPasswordVisible) {
-                <mat-icon svgIcon="eye"/>
-              } @else {
-                <mat-icon svgIcon="closed_eye"/>
-              }
-            </button>
-          </div>
-          @if (getFieldError('password')) {
-            <small class="error error-message" id="password-error" role="alert">{{ getFieldError('password') }}</small>
-          } @else {
-            <small class="help-text" id="password-help">Mínimo 6 caracteres</small>
-          }
-        </fieldset>
-
-        
-
-        <button
-          type="submit"
-          class="login-button"
-          [disabled]="loginForm.invalid || isCurrentlyLoading()"
-          tabindex="5"
-          [attr.aria-describedby]="isCurrentlyLoading() ? 'loading-status' : null"
-        >
-          @if (isCurrentlyLoading()) {
-            <span class="spinner" aria-hidden="true"></span>
-            <span id="loading-status" aria-live="polite">Iniciando sesión...</span>
-          } @else {
-            Iniciar sesión
-          }
-        </button>
-      </form> -->
+      
       <p><a href="#" class="forgot-link" tabindex="4">¿Olvidaste tu contraseña?</a></p>
       <div class="divider">
         <hr> <span>o inicia sesión con</span> <hr>
