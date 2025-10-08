@@ -6,7 +6,18 @@ section {
   padding: 0 1em;
   max-width: 550px;
   /* height: 33em; */
-  
+
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    a {
+      text-decoration: none;
+      color: #6366f1;
+    }
+  }
+
   table {
     /* margin: 1em; */
     border-collapse: collapse;
@@ -16,6 +27,7 @@ section {
     /* min-height: 20em; */
 
     thead {
+
       /* height: ; */
       tr {
         th {
@@ -138,9 +150,7 @@ section {
           border: none;
           background: transparent;
 
-          &:hover {
-            /* background: transparent; */
-          }
+          /* &:hover { } */
         }
       }
 
