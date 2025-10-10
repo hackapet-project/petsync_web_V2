@@ -1,4 +1,6 @@
-<p>animals works!</p>
-<main>
-  <h1>Hello</h1>
-</main>
+<section>
+  <!-- <h1>Hola?</h1> -->
+  @for (animal of animals; track $index) {
+    <animal-widget [animal]="animal"/>
+  }
+</section>
