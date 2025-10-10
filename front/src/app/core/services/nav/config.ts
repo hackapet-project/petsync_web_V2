@@ -34,8 +34,6 @@ export const config: NavConfig = {
     ],
     widgets: [
       { component: 'AnimalList', position: 1 },
-      // { component: 'EventsWidgetComponent', position: 2 },
-      // { component: 'ReportsWidgetComponent', position: 3 },
     ]
   },
   moderator: {
@@ -48,9 +46,7 @@ export const config: NavConfig = {
       { label: 'Configuración', icon: 'settings', route: '/settings' },
     ],
     widgets: [
-      // { component: 'AnimalList', position: 2 },
       { component: 'AnimalList', position: 1 },
-      // { component: 'AnimalList', position: 3 },
     ]
   },
   regular: {
