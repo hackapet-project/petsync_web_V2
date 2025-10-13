@@ -15,11 +15,6 @@ export const routes: Routes = [
     title: 'Dashboard - PetSync'
   },
   {
-    path: '',
-    redirectTo: '/login',
-    pathMatch: 'full'
-  },
-  {
     path: '**',
     redirectTo: '/login'
   }
