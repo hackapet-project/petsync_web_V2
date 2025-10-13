@@ -33,7 +33,7 @@ export const config: NavConfig = {
       { label: 'Configuración', icon: 'settings', route: '/settings' },
     ],
     widgets: [
-      { component: 'AnimalList', position: 1 },
+      // { component: 'AnimalList', position: 1 },
     ]
   },
   moderator: {
