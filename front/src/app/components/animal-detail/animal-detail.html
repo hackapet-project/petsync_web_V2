@@ -1,0 +1,59 @@
+<section>
+  <header>
+    <div>
+      <a routerLink="/animals">
+        <mat-icon fontSet="material-symbols-outlined">arrow_back</mat-icon>
+        Volver
+      </a>
+      <h2>{{ animal()?.name }}</h2>
+    </div>
+    <nav>
+      <button>
+        <mat-icon fontSet="material-symbols-outlined">share</mat-icon>
+        Compartir
+      </button>
+      <button>
+        <mat-icon fontSet="material-symbols-outlined">edit</mat-icon>
+        Editar
+      </button>
+    </nav>
+  </header>
+  <div>
+    <article>
+      <h3>Información</h3>
+      <div>
+        <section>
+            <label for="">Nombre</label>
+            <p>{{ animal()?.name }}</p>
+            <label for="">Especie</label>
+            <p>{{ animal()?.species }}</p>
+            <label for="">Género</label>
+            <p>{{ animal()?.gender }}</p>
+        </section>
+        <section>
+            <label for="">Raza</label>
+            <p>{{ animal()?.breed }}</p>
+              <label for="">Tamaño</label>
+              <p>{{ animal()?.size }}</p>
+            <label for="">Peso</label>
+            <p>{{ animal()?.weight }}</p>
+        </section>
+      </div>
+    </article>
+  
+    <article>
+      <h3>Descripción</h3>
+      <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Inventore ea provident qui, labore eaque nihil unde iusto nulla distinctio hic deserunt dolore quo architecto rem ullam ipsam debitis tenetur molestias.</p>
+    </article>
+
+    <article>
+      <!-- <header> -->
+        <h3>Fotos</h3>
+        <button>Añadir foto</button>
+      <!-- </header> -->
+      <div class="photo">
+        <mat-icon fontSet="material-symbols-outlined">photo_camera</mat-icon>
+      </div>
+    </article>
+  </div>
+</section>
