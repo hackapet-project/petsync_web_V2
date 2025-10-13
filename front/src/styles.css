@@ -23,9 +23,12 @@ html, body {
 
   /* border: 1px solid #e0e0e0; */
   --light-grey:  #e0e0e0;
-  --grey:  #504e4e;
+  --grey:  #989898;
+  --bg-grey:  #9594947b;
+  --purple: #6366f1;
+  --dark-purple: #5658c1;
   /* --light-grey:  red; */
-  --boder-style: 1px solid var(--light-grey);
+  --border-style: 1px solid var(--light-grey);
   
   h1 {
     font-weight: 600;
@@ -38,6 +41,11 @@ html, body {
 
 main {
   min-height: 100vh;
+}
+
+a {
+  text-decoration: none;
+  color: #6366f1;
 }
 
 /* You can add global styles to this file, and also import other style files */
