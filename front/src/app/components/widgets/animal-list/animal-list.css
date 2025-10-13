@@ -12,10 +12,7 @@ section {
     align-items: center;
     justify-content: space-between;
 
-    a {
-      text-decoration: none;
-      color: #6366f1;
-    }
+    
   }
 
   table {
