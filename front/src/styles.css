@@ -1,9 +1,18 @@
 /* CSS Reset - Remove default margin and padding */
+/* * {
+  max-width: 100%;
+  box-sizing: border-box;
+} */
+
 html, body {
   margin: 0;
   padding: 0;
   width: 100%;
   height: 100%;
+
+  overflow-x: hidden;
+  max-width: 100%;
+
 
   --purple-gradient: 
     linear-gradient(135deg, 
@@ -11,6 +20,17 @@ html, body {
     #8b5cf6 50%, 
     #a855f7 100%);
 
+
+  /* border: 1px solid #e6e6e689 */
+  --light-grey:  #e6e6e689;
+  --grey:  #e0e0e0;
+  --dark-grey: #959494fa;
+  --bg-grey:  #9594947b;
+  --purple: #6366f1;
+  --dark-purple: #5658c1;
+  /* --light-grey:  red; */
+  --border-style: 1px solid var(--grey);
+  
   h1 {
     font-weight: 600;
   }
@@ -24,9 +44,14 @@ main {
   min-height: 100vh;
 }
 
+a {
+  text-decoration: none;
+  color: #6366f1;
+}
+
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
 body { margin: 0; 
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
- }
+}

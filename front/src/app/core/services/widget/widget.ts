@@ -1,6 +1,7 @@
 // widget-registry.service.ts
 import { Injectable, Type } from '@angular/core';
 import { AnimalList } from '../../../components/widgets/animal-list/animal-list';
+import { AnimalCard } from '../../../components/widgets/animal-card/animal-card';
 // import { AnimalsWidgetComponent } from './widgets/animals-widget/animals-widget.component';
 // import { EventsWidgetComponent } from './widgets/events-widget/events-widget.component';
 // import { ReportsWidgetComponent } from './widgets/reports-widget/reports-widget.component';
@@ -14,6 +15,7 @@ export class Widget {
   constructor() {
     // Register all your widgets here
     this.widgetMap.set('AnimalList', AnimalList);
+    this.widgetMap.set('AnimalCard', AnimalCard);
     // this.widgetMap.set('EventsWidgetComponent', EventsWidgetComponent);
     // this.widgetMap.set('ReportsWidgetComponent', ReportsWidgetComponent);
     // Add more widgets as needed

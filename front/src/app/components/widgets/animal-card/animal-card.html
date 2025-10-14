@@ -1,0 +1,18 @@
+<section>
+  <header >
+    <div [ngStyle]="{ 'background-color': getColor(animal().name) }">
+      <h3>{{ animal().name.charAt(0).toUpperCase() }}</h3>
+    </div>
+    <h3>{{ animal().name }}</h3>
+  </header>
+  <article >
+    <p>Especie: <span>{{ animal().species}}</span></p>
+    <p>Raza: <span>{{ animal().breed}}</span> </p>
+    <p>Tamaño: <span>{{ animal().size}}</span> </p>
+    <p>Peso: <span>{{ animal().weight}}</span> </p>
+    <p>Sexo: <span>{{ animal().gender}}</span> </p>
+
+    <a [routerLink]="['/animals', animal().id]">Detalles</a>
+    <!-- <p>{{ animal().breed}} </p> -->
+  </article>
+</section>

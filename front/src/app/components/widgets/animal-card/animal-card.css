@@ -1,0 +1,38 @@
+section {
+  background-color: white;
+  border: var(--border-style);
+  border-radius: 1em;
+  padding: .8em;
+  aspect-ratio: 1/1;
+  /* width: 12em; */
+  header {
+    display: flex;
+    align-items: center;
+    /* justify-content: space-evenly; */
+    place-self: left;
+    /* margin-left: 0; */
+    /* padding: 1em; */
+    div {
+      color: white;
+      display: inherit;
+      /* flex-direction: column; */
+      align-items: center;
+      margin-right: .8em;
+      place-content: center;
+      width: 2em;
+      height: 2em;
+      border-radius: 50%;
+    }
+  }
+  article {
+    /* border: var(--border-style); */
+    /* border-radius: 1em; */
+    
+    p {
+      color: var(--dark-grey);
+      span {
+        color: black;
+      }
+    }
+  }
+}

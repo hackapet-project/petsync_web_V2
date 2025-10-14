@@ -6,12 +6,13 @@ export interface Animal {
   gender: string;
   size: string;
   weight: string;
+  id?: string;
 }
 
 export const animals: Animal[] = [
-  { name: 'Luna', species: 'Perro', age: '2 Años', breed: 'Labrador', gender: 'Hembra', size: 'Grande', weight: '20.4kg' },
-  { name: 'Max', species: 'Perro', age: '3 Años', breed: 'Pastor Alemán', gender: 'Macho', size: 'Grande', weight: '28.7kg' },
-  { name: 'Milo', species: 'Gato', age: '1 Año', breed: 'Europeo Común', gender: 'Macho', size: 'Mediano', weight: '4.1kg' },
+  { name: 'Luna', species: 'Perro', age: '2 Años', breed: 'Labrador', gender: 'Hembra', size: 'Grande', weight: '20.4kg', id: "1", },
+  { name: 'Max', species: 'Perro', age: '3 Años', breed: 'Pastor Alemán', gender: 'Macho', size: 'Grande', weight: '28.7kg', id: "2", },
+  { name: 'Milo', species: 'Gato', age: '1 Año', breed: 'Europeo Común', gender: 'Macho', size: 'Mediano', weight: '4.1kg', id: "3", },
   { name: 'Nala', species: 'Gato', age: '4 Años', breed: 'Siamesa', gender: 'Hembra', size: 'Mediano', weight: '3.6kg' },
   { name: 'Toby', species: 'Perro', age: '6 Meses', breed: 'Beagle', gender: 'Macho', size: 'Mediano', weight: '7.3kg' },
   { name: 'Coco', species: 'Perro', age: '5 Años', breed: 'Caniche', gender: 'Macho', size: 'Pequeño', weight: '5.8kg' },

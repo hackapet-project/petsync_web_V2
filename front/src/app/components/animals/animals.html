@@ -1,4 +1,35 @@
-<p>animals works!</p>
-<main>
-  <h1>Hello</h1>
-</main>
+<section>
+  <!-- <h1>Hola?</h1> -->
+   <header>
+      <mat-icon fontSet="material-symbols-outlined">search</mat-icon>
+      <input type="text" placeholder="Buscar por: nombre o raza">
+      <select type="text">
+        <option value="" disabled>Raza</option>
+        <option value="dog">Perro</option>
+        <option value="cat">Gato</option>
+        <option value="other">Otro</option>
+      </select>
+      <select type="text" placeholder="Edad">
+        <option value="" disabled selected>Edad</option>
+        <option value="dog">Joven (> 1 Año)</option>
+        <option value="cat">Gato</option>
+        <option value="other">Otro</option>
+      </select>
+      <select type="text" placeholder="Estado">
+        <option value="" disabled selected>Estado</option>
+        <option value="adopted">Adoptado</option>
+        <option value="available">Disponible</option>
+        <option value="other">Otro</option>
+      </select>
+      <button>
+        <mat-icon fontSet="material-symbols-outlined">add_2</mat-icon>
+        Animal
+      </button>
+   </header>
+
+   <div>
+     @for (animal of animals; track $index) {
+       <animal-widget [animal]="animal"/>
+     }
+   </div>
+</section>

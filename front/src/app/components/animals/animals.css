@@ -1,0 +1,66 @@
+section {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+
+  header {
+    align-items: center;
+    background-color: white;
+    border: var(--border-style);
+    border-radius: 1em;
+    box-sizing: border-box;
+    display: flex;
+    /* gap: 1em; */
+    height: 4em;
+    justify-content: space-around;
+    
+    button {
+      align-items: center;
+      background-color: var(--purple);
+      border: none;
+      border-radius: .6em;
+      box-sizing: border-box;
+      color: white;
+      cursor: pointer;
+      display: inline-flex;
+      gap: .8em;
+      height: 3em;
+      justify-content: space-around;
+      padding: .2em .8em;
+      transition: all .3s;
+
+      &:hover {
+        background-color: var(--dark-purple);
+      }
+    }
+
+    input, select {
+      background-color: white;
+      border: var(--border-style);
+      border-radius: .4em;
+      height: 3em;
+
+    }
+
+    input:focus, select:focus {
+      /* outline: none; */
+      /* outline-color: slateblue; */
+      outline: 1px solid var(--purple);
+    }
+
+    input {
+      width: 50%;
+      padding: 0 1em;
+    }
+
+    select {
+      width: 8em;
+    }
+  }
+
+  div {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: .2em;
+  }
+}
