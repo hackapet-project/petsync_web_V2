@@ -21,14 +21,15 @@ html, body {
     #a855f7 100%);
 
 
-  /* border: 1px solid #e0e0e0; */
-  --light-grey:  #e0e0e0;
-  --grey:  #989898;
+  /* border: 1px solid #e6e6e689 */
+  --light-grey:  #e6e6e689;
+  --grey:  #e0e0e0;
+  --dark-grey: #959494fa;
   --bg-grey:  #9594947b;
   --purple: #6366f1;
   --dark-purple: #5658c1;
   /* --light-grey:  red; */
-  --border-style: 1px solid var(--light-grey);
+  --border-style: 1px solid var(--grey);
   
   h1 {
     font-weight: 600;
