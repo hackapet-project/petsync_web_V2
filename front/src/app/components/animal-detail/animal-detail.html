@@ -6,6 +6,10 @@
         Volver
       </a>
       <h2>{{ animal()?.name }}</h2>
+
+      @if (! animal()) {
+      <h2>Animal no encontrado</h2>
+      }
     </div>
     <nav>
       <button>
@@ -18,42 +22,151 @@
       </button>
     </nav>
   </header>
-  <div>
-    <article>
-      <h3>Información</h3>
-      <div>
-        <section>
+
+  <div class="grid-container">
+    <div class="first-col">
+      <article>
+        <h3>Información</h3>
+        <div>
+          <section>
             <label for="">Nombre</label>
             <p>{{ animal()?.name }}</p>
             <label for="">Especie</label>
             <p>{{ animal()?.species }}</p>
             <label for="">Género</label>
             <p>{{ animal()?.gender }}</p>
-        </section>
-        <section>
+          </section>
+          <section>
             <label for="">Raza</label>
             <p>{{ animal()?.breed }}</p>
-              <label for="">Tamaño</label>
-              <p>{{ animal()?.size }}</p>
+            <label for="">Tamaño</label>
+            <p>{{ animal()?.size }}</p>
             <label for="">Peso</label>
             <p>{{ animal()?.weight }}</p>
-        </section>
-      </div>
-    </article>
-  
-    <article>
-      <h3>Descripción</h3>
-      <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Inventore ea provident qui, labore eaque nihil unde iusto nulla distinctio hic deserunt dolore quo architecto rem ullam ipsam debitis tenetur molestias.</p>
-    </article>
+          </section>
+        </div>
+      </article>
+      <article>
+        <h3>Descripción</h3>
+        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Inventore ea provident qui, labore eaque nihil unde
+          iusto nulla distinctio hic deserunt dolore quo architecto rem ullam ipsam debitis tenetur molestias.</p>
+      </article>
+    </div>
 
-    <article>
-      <!-- <header> -->
+    <div class="second-col">
+      <article>
+        <h3>
+          <mat-icon fontSet="material-symbols-outlined">vital_signs</mat-icon>
+          Salud
+        </h3>
+        <section>
+          <label for="">Fecha de ingreso:
+            <span>15/06/2025</span>
+          </label>
+          <label for="">Peso al ingreso:
+            <span>25 kg</span>
+          </label>
+          <label for="">Peso actual:
+            <span>25.6 kg</span>
+          </label>
+          <label for="">Peso Ideal:
+            <span>25.8 kg</span>
+          </label>
+        </section>
+      </article>
+      <article>
+        <h3>
+          <!-- <mat-icon fontSet="material-symbols-outlined">vital_signs</mat-icon> -->
+          Características
+        </h3>
+        <span>Chip</span>
+        <span>Castrado</span>
+        <span>Vacunado</span>
+      </article>
+
+      <article>
+        <button>
+          <mat-icon fontSet="material-symbols-outlined">favorite</mat-icon>
+          Proceso de Adopción
+        </button>
+        <button>
+          <mat-icon fontSet="material-symbols-outlined">prescriptions</mat-icon>
+          Historial Médico
+        </button>
+      </article>
+    </div>
+    <div class="third-col">
+      <article>
         <h3>Fotos</h3>
         <button>Añadir foto</button>
-      <!-- </header> -->
-      <div class="photo">
-        <mat-icon fontSet="material-symbols-outlined">photo_camera</mat-icon>
-      </div>
-    </article>
+        <div class="photo">
+          <mat-icon fontSet="material-symbols-outlined">photo_camera</mat-icon>
+        </div>
+        <div class="photo">
+          <mat-icon fontSet="material-symbols-outlined">photo_camera</mat-icon>
+        </div>
+        <div class="photo">
+          <mat-icon fontSet="material-symbols-outlined">photo_camera</mat-icon>
+        </div>
+      </article>
+    </div>
   </div>
+
 </section>
+<!-- <div>
+  <article>
+    <h3>Información</h3>
+    <div>
+      <section>
+          <label for="">Nombre</label>
+          <p>{{ animal()?.name }}</p>
+          <label for="">Especie</label>
+          <p>{{ animal()?.species }}</p>
+          <label for="">Género</label>
+          <p>{{ animal()?.gender }}</p>
+      </section>
+      <section>
+          <label for="">Raza</label>
+          <p>{{ animal()?.breed }}</p>
+            <label for="">Tamaño</label>
+            <p>{{ animal()?.size }}</p>
+          <label for="">Peso</label>
+          <p>{{ animal()?.weight }}</p>
+      </section>
+    </div>
+  </article>
+  <article>
+    <h3>Descripción</h3>
+    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Inventore ea provident qui, labore eaque nihil unde iusto nulla distinctio hic deserunt dolore quo architecto rem ullam ipsam debitis tenetur molestias.</p>
+  </article>
+  <article>
+    <h3>Características</h3>
+    <button>
+      <mat-icon fontSet="material-symbols-outlined">favorite</mat-icon>
+      Proceso de Adopción
+    </button>
+    <button>
+      <mat-icon fontSet="material-symbols-outlined">prescriptions</mat-icon>
+      Historial Médico
+    </button>
+  </article>
+</div>
+<div>
+  <article>
+    <h3>Información médica</h3>
+  </article>
+
+</div>
+<article>
+    <h3>Fotos</h3>
+    <button>Añadir foto</button>
+  <div class="photo">
+    <mat-icon fontSet="material-symbols-outlined">photo_camera</mat-icon>
+  </div>
+  <div class="photo">
+    <mat-icon fontSet="material-symbols-outlined">photo_camera</mat-icon>
+  </div>
+  <div class="photo">
+    <mat-icon fontSet="material-symbols-outlined">photo_camera</mat-icon>
+  </div>
+</article> -->

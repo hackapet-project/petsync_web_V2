@@ -29,7 +29,10 @@ section {
     /* border-radius: 1em; */
     
     p {
-      color: var(--grey);
+      color: var(--dark-grey);
+      span {
+        color: black;
+      }
     }
   }
 }
