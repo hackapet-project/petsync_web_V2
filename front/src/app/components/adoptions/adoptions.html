@@ -1,1 +1,57 @@
-<p>adoptions works!</p>
+<section>
+  <header>
+    <div>
+      <mat-icon fontSet="material-symbols-outlined">search</mat-icon>
+      <input type="text" placeholder="Buscar por adoptante o animal">
+    </div>
+    <!-- <select type="text">
+        <option value="" disabled>Raza</option>
+        <option value="dog">Perro</option>
+        <option value="cat">Gato</option>
+        <option value="other">Otro</option>
+      </select>
+      <select type="text" placeholder="Edad">
+        <option value="" disabled selected>Edad</option>
+        <option value="dog">Joven (> 1 Año)</option>
+        <option value="cat">Gato</option>
+        <option value="other">Otro</option>
+      </select>
+      <select type="text" placeholder="Estado">
+        <option value="" disabled selected>Estado</option>
+        <option value="adopted">Adoptado</option>
+        <option value="available">Disponible</option>
+        <option value="other">Otro</option>
+      </select> -->
+    <nav>
+      <button>
+        <mat-icon fontSet="material-symbols-outlined">add_2</mat-icon>
+        Adopción
+      </button>
+    </nav>
+  </header>
+  <section>
+    <div class="busqueda-animal">
+      <label for="buscar-animal">Buscar animal disponible:</label>
+      <input id="buscar-animal" type="text" [formControl]="searchControl" placeholder="Nombre o ID del animal..." />
+
+      <div class="resultados" *ngIf="animalesFiltrados$ | async as animals">
+        @for (animal of animals; track $index) {
+          <div class="animal-item" (click)="seleccionarAnimal(animal)">
+            <span class="id">ID: {{animal?.id}}</span>
+            <span class="nombre">{{animal?.name}}</span>
+            <span class="especie">{{animal?.breed}}</span>
+          </div>
+        }
+      </div>
+
+      <div *ngIf="animalSeleccionado" class="animal-seleccionado">
+        <h3>Animal seleccionado:</h3>
+        <p>{{animalSeleccionado?.name}} - {{animalSeleccionado?.breed}}</p>
+        <!-- Aquí continúa tu formulario de adopción -->
+      </div>
+    </div>
+  </section>
+  @for (adoption of adoptions; track $index) {
+  <adoption />
+  }
+</section>

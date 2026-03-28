@@ -1,0 +1,6 @@
+article {
+  background-color: white;
+  border: var(--border-style);
+  border-radius: .3em;
+  display: flex;
+}

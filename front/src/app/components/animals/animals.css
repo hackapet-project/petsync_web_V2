@@ -10,9 +10,11 @@ section {
     border-radius: 1em;
     box-sizing: border-box;
     display: flex;
-    /* gap: 1em; */
+    padding: 0 .8em;
     height: 4em;
-    justify-content: space-around;
+    /* background-color: red; */
+    justify-content: space-between;
+    /* justify-content: space-between; */
     
     button {
       align-items: center;
@@ -25,7 +27,6 @@ section {
       display: inline-flex;
       gap: .8em;
       height: 3em;
-      justify-content: space-around;
       padding: .2em .8em;
       transition: all .3s;
 
@@ -34,12 +35,20 @@ section {
       }
     }
 
+    div {
+      align-items: center;
+      /* justify-content: space-between; */
+      display: flex;
+      /* width: 50%; */
+      /* background-color: beige; */
+    }
+
     input, select {
       background-color: white;
       border: var(--border-style);
       border-radius: .4em;
       height: 3em;
-
+      /* width: 100%; */
     }
 
     input:focus, select:focus {
@@ -49,12 +58,21 @@ section {
     }
 
     input {
-      width: 50%;
+      /* width: 100%; */
       padding: 0 1em;
+      margin: 0 1em;
+    }
+
+    nav {
+      align-items: center;
+      display: flex;
+      width: 35%;
+      /* background-color: blue; */
+      justify-content: space-between;
     }
 
     select {
-      width: 8em;
+      width: 4em;
     }
   }
 
