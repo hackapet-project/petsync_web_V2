@@ -9,7 +9,7 @@ import { LoginError } from '../../../core/services/error-handler.service';
 import { CustomValidators } from '../../../core/validators/custom-validators';
 import { Brand } from '../../../components/brand/brand';
 import { Router } from '@angular/router';
-import { FormGeneratorComponent } from '../../../components/form-generator/form-generator';
+import { FormGeneratorComponent } from '@app/components/form-generator/form-generator';
 import { FormConfig } from '../../../components/form-generator/interfaces';
 import { loginFormConfig } from '../../../components/form-generator/forms_scaffolders/login';
 
