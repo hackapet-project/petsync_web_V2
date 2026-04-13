@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
-import { Adoption } from '../widgets/adoption/adoption';
+import { AdoptionWidget } from '../widgets/adoption/adoption';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, delay, distinctUntilChanged, Observable, of, startWith, switchMap } from 'rxjs';
 import { Animal, animals } from '@app/core/utils/animal_mocks';
@@ -14,7 +14,7 @@ import { Modal } from '@app/components/widgets/modal/modal';
   selector: 'app-adoptions',
   imports: [
     MatIcon,
-    Adoption, ReactiveFormsModule,
+    AdoptionWidget, ReactiveFormsModule,
     CommonModule
   ],
   templateUrl: './adoptions.html',
@@ -22,10 +22,18 @@ import { Modal } from '@app/components/widgets/modal/modal';
 })
 export class Adoptions implements OnInit {
   animals: Animal[] = animals;
-  adoptions: [] = [];
+  adoptions: any[] = [
+    {
+      adoptant_email: "diego@email.com",
+      adoptant_name: "Diego",
+      animal_id: "58590345",
+      responsable_id: "2938742374",
+    }
+  ];
   searchControl = new FormControl('');
   filteredAnimals$!: Observable<Animal[]>;
   animalSelected: Animal | null = null;
+  
   private dialog = inject(MatDialog)
 
   ngOnInit() {
@@ -65,10 +73,10 @@ export class Adoptions implements OnInit {
       disableClose: true
     });
 
-    dialogRef.afterClosed().subscribe((result: any) => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         // Save into animals or adoptions array
-        this.animals.push(result);
+        this.adoptions.push(result);
 
         // or if it's really an adoption:
         // this.adoptions.push(result);

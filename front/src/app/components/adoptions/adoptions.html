@@ -11,11 +11,16 @@
       </button>
     </nav>
   </header>
-  <div class="results" style="display: flex; flex-direction: column;" *ngIf="filteredAnimals$ | async as animals">
+  <article>
+     @for (adoption of adoptions; track $index) {
+      <app-adoption [adoptionData]="adoption" />
+      }
+  </article>
+  <!-- <div class="results" style="display: flex; flex-direction: column;" *ngIf="filteredAnimals$ | async as animals">
     @for (animal of animals; track $index) {
       <adoption [animal]="animal" />
       } @empty {
         <p>No animals found matching your search.</p>
       }
-  </div>
+  </div> -->
 </section>
