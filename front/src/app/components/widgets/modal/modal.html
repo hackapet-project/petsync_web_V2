@@ -1,8 +1,10 @@
 <h2 mat-dialog-title>Nueva Adopción</h2>
 <mat-dialog-content>
-    <!-- Your form goes here -->
+    <app-form-generator
+        [config]="adoptionConfig"
+        (formSubmit)="onSubmit($event)">
+      ></app-form-generator>
 </mat-dialog-content>
-<mat-dialog-actions align="end">
+<mat-dialog-actions>
     <button mat-button mat-dialog-close>Cancelar</button>
-    <button mat-raised-button color="primary">Guardar</button>
 </mat-dialog-actions>
