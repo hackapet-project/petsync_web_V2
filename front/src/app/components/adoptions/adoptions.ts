@@ -60,11 +60,9 @@ export class Adoptions implements OnInit {
   }
 
   newAdoption() {
-    const dialogRef = this.dialog.open(Modal);
-
-    this.dialog.open(Modal, {
+    const dialogRef = this.dialog.open(Modal, {
       width: '600px',
-      disableClose: true // optional: prevents closing by clicking outside
+      disableClose: true
     });
 
     dialogRef.afterClosed().subscribe((result: any) => {
