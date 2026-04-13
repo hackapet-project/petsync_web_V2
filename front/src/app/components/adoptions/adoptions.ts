@@ -21,7 +21,8 @@ import { Modal } from '@app/components/widgets/modal/modal';
   styleUrl: './adoptions.css'
 })
 export class Adoptions implements OnInit {
-  adoptions: Animal[] = animals;
+  animals: Animal[] = animals;
+  adoptions: [] = [];
   searchControl = new FormControl('');
   filteredAnimals$!: Observable<Animal[]>;
   animalSelected: Animal | null = null;
@@ -32,7 +33,7 @@ export class Adoptions implements OnInit {
       startWith(''),
       debounceTime(300), // Espera 300ms después de que el usuario deje de escribir
       distinctUntilChanged(), // Solo emite si el valor cambió
-      switchMap((term: string | null) => 
+      switchMap((term: string | null) =>
         this.searchInMock(term ?? ''))
     );
   }
@@ -59,9 +60,23 @@ export class Adoptions implements OnInit {
   }
 
   newAdoption() {
+    const dialogRef = this.dialog.open(Modal);
+
     this.dialog.open(Modal, {
-      width: '500px',
+      width: '600px',
       disableClose: true // optional: prevents closing by clicking outside
+    });
+
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (result) {
+        // Save into animals or adoptions array
+        this.animals.push(result);
+
+        // or if it's really an adoption:
+        // this.adoptions.push(result);
+
+        console.log('New adoption added:', result);
+      }
     });
   }
 }

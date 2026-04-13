@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { FormGeneratorComponent } from '@app/components/form-generator/form-generator';
 import { adoptionFormConfig } from '@app/components/form-generator/forms_scaffolders/adoption';
@@ -15,8 +15,11 @@ import { FormConfig } from '@app/components/form-generator/interfaces';
 })
 export class Modal {
   adoptionConfig: FormConfig = adoptionFormConfig;
-
-  onSubmit(event: Event): void {
+  
+  constructor(private dialogRef: MatDialogRef<Modal>) {}
+  
+  onSubmit(formValue: any): void {
     console.log('HEY BRAH')
+    this.dialogRef.close(formValue);
   }
 }
