@@ -9,7 +9,8 @@ import sys
 responses = get_responses()
 
 class RefreshSessionTokens(TokenRefreshView):
-    permission_classes = [AllowAny]
+    permission_classes = [ AllowAny ]
+    
     def post(self, request):
         refresh_token = request.COOKIES.get('refresh_token')
         # print(f"DEBUG: refresh_token from cookie: {refresh_token}", file=sys.stderr) 
@@ -25,7 +26,7 @@ class RefreshSessionTokens(TokenRefreshView):
             "session_token",
             serializer.validated_data["access"],
             httponly=True,
-            samesite="None",
+            samesite="Lax",
             secure=False,
             max_age=300,
         )

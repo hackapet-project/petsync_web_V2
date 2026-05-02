@@ -42,7 +42,7 @@ class SessionTokens(APIView):
                 httponly=True,
                 secure=False,
                 domain=None,
-                samesite='None',
+                samesite='Lax',
                 max_age=300
             )
 
@@ -52,7 +52,7 @@ class SessionTokens(APIView):
                 httponly=True,
                 secure=False,
                 domain=None,
-                samesite='None',
+                samesite='Lax',
                 max_age=86400
             )
 
