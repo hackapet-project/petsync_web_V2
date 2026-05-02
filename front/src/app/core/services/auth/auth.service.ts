@@ -1,5 +1,8 @@
 import { Injectable, inject, signal } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Router } from '@angular/router'
+import { tap, catchError } from 'rxjs/operators';
+import { of, Observable, finalize } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { ErrorHandlerService, LoginError } from '../error-handler.service';
 import { LoadingService } from '../loading.service';
 
@@ -15,7 +18,7 @@ export interface AuthResponse {
     id: string;
     email: string;
     name: string;
-  };
+  },
   error?: LoginError;
 }
 
@@ -29,6 +32,10 @@ export interface User {
   providedIn: 'root'
 })
 export class AuthService {
+  private http = inject(HttpClient);
+  private router = inject(Router);
+  private base = 'http://localhost:9000';
+  private isLoggingOut = false;
   private readonly errorHandler = inject(ErrorHandlerService);
   private readonly loadingService = inject(LoadingService);
 
@@ -40,98 +47,75 @@ export class AuthService {
 
   login(credentials: LoginCredentials): Observable<AuthResponse> {
     this.loadingService.startLoading('Iniciando sesión...');
-
-    // Simulate API call with various outcomes
-    return new Observable<AuthResponse>(observer => {
-      setTimeout(() => {
-        try {
-          // Simulate different scenarios based on email for demo
-          if (credentials.email === 'error@test.com') {
-            throw new Error('Network error');
-          }
-
-          if (credentials.email === 'invalid@test.com') {
-            throw { status: 401, message: 'Invalid credentials' };
-          }
-
-          if (credentials.email === 'validation@test.com') {
-            throw { status: 400, message: 'Validation failed' };
-          }
-
-          // Success case
-          const user: User = {
-            id: '1',
-            email: credentials.email,
-            name: 'Usuario Test'
-          };
-
-          this.userSignal.set(user);
-          this.isAuthenticatedSignal.set(true);
-          this.loadingService.stopLoading();
-
-          observer.next({
-            success: true,
-            token: 'fake-jwt-token',
-            user
-          });
-          observer.complete();
-
-        } catch (error) {
-          const loginError = this.errorHandler.handleLoginError(error);
-          this.loadingService.stopLoading();
-
-          observer.next({
-            success: false,
-            error: loginError
-          });
-          observer.complete();
-        }
-      }, 2000);
-    });
+    return this.http.post<AuthResponse>(`${this.base}/v1/login/`, credentials).pipe(
+      tap((response: AuthResponse) => {
+        localStorage.setItem('token', response.token!);
+        this.userSignal.set(response.user ?? null);
+        this.isAuthenticatedSignal.set(true);
+        this.loadingService.stopLoading();
+      }),
+      catchError((e: HttpErrorResponse) => {
+        const loginError = this.errorHandler.handleLoginError(e);
+        this.loadingService.stopLoading();
+        return of({ success: false, error: loginError });HttpErrorResponse
+      })
+    );
   }
 
-  loginWithGoogle(): Observable<AuthResponse> {
-    this.loadingService.startLoading('Autenticando con Google...');
+  // loginWithGoogle(): Observable<AuthResponse> {
+  //   this.loadingService.startLoading('Autenticando con Google...');
 
-    return new Observable<AuthResponse>(observer => {
-      setTimeout(() => {
-        try {
-          // Simulate successful Google OAuth
-          const user: User = {
-            id: '2',
-            email: 'user@gmail.com',
-            name: 'Usuario Google'
-          };
+  //   return new Observable<AuthResponse>(observer => {
+  //     setTimeout(() => {
+  //       try {
+  //         // Simulate successful Google OAuth
+  //         const user: User = {
+  //           id: '2',
+  //           email: 'user@gmail.com',
+  //           name: 'Usuario Google'
+  //         };
 
-          this.userSignal.set(user);
-          this.isAuthenticatedSignal.set(true);
-          this.loadingService.stopLoading();
+  //         this.userSignal.set(user);
+  //         this.isAuthenticatedSignal.set(true);
+  //         this.loadingService.stopLoading();
 
-          observer.next({
-            success: true,
-            token: 'fake-google-jwt-token',
-            user
-          });
-          observer.complete();
+  //         observer.next({
+  //           success: true,
+  //           token: 'fake-google-jwt-token',
+  //           user
+  //         });
+  //         observer.complete();
 
-        } catch (error) {
-          const loginError = this.errorHandler.handleGoogleAuthError(error);
-          this.loadingService.stopLoading();
+  //       } catch (error) {
+  //         const loginError = this.errorHandler.handleGoogleAuthError(error);
+  //         this.loadingService.stopLoading();
 
-          observer.next({
-            success: false,
-            error: loginError
-          });
-          observer.complete();
-        }
-      }, 1500);
-    });
-  }
+  //         observer.next({
+  //           success: false,
+  //           error: loginError
+  //         });
+  //         observer.complete();
+  //       }
+  //     }, 1500);
+  //   });
+  // }
 
-  logout(): void {
-    this.userSignal.set(null);
-    this.isAuthenticatedSignal.set(false);
+  logout(): Observable<void> {
+    this.isLoggingOut = true;
+
+    return this.http.post<void>(`${this.base}/v1/logout/`, {}).pipe(
+      finalize(() => {
+        this.isLoggingOut = false;
+        this.userSignal.set(null);
+        this.isAuthenticatedSignal.set(false);
+        this.router.navigate(['/login']);
+      })
+    );
     // TODO: Clear tokens, redirect to login
+  }
+  
+  get loggingOut(): boolean {
+    return this.isLoggingOut;
   }
 
   isLoggedIn(): boolean {
@@ -141,4 +125,8 @@ export class AuthService {
   getCurrentUser(): User | null {
     return this.userSignal();
   }
+
+  refreshToken(): Observable<void> {
+  return this.http.post<void>(`${this.base}/v1/token/refresh/`, {});
+}
 }

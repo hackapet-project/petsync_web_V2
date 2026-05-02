@@ -12,9 +12,24 @@
     </nav>
   </header>
   <article>
-     @for (adoption of adoptions; track $index) {
-      <app-adoption [adoptionData]="adoption" />
-      }
+     @if (loading()) {
+      <p>Loading...</p>
+    }
+
+    @if (error()) {
+      <p class="error">{{ error() }}</p>
+    }
+
+    @if (!loading() && !error()) {
+      <h1>HELLO MADAFAQUERS</h1>
+      <!-- <ul>
+        @for (adoption of adoptions(); track adoption.public_id) {
+          <li>{{ adoption.adoptant_name }} — {{ adoption.state }}</li>
+        } @empty {
+          <li>No adoptions found.</li>
+        }
+      </ul> -->
+    }
   </article>
   <!-- <div class="results" style="display: flex; flex-direction: column;" *ngIf="filteredAnimals$ | async as animals">
     @for (animal of animals; track $index) {

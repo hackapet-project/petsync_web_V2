@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { AdoptionWidget } from '../widgets/adoption/adoption';
@@ -8,6 +8,8 @@ import { Animal, animals } from '@app/core/utils/animal_mocks';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { Modal } from '@app/components/widgets/modal/modal';
+import { Adoptions as AdoptionService } from '@app/core/services/adoptions/adoptions';
+import { Adoption, CreateAdoptionDto } from '@app/core/services/adoptions/adoptions.model';
 // front\src\app\components\widgets\modal\modal
 
 @Component({
@@ -21,29 +23,24 @@ import { Modal } from '@app/components/widgets/modal/modal';
   styleUrl: './adoptions.css'
 })
 export class Adoptions implements OnInit {
+  private adoptionService = inject(AdoptionService)
+  
   animals: Animal[] = animals;
-  adoptions: any[] = [
-    {
-      adoptant_email: "diego@email.com",
-      adoptant_name: "Diego",
-      animal_id: "58590345",
-      responsable_id: "2938742374",
-    }
-  ];
   searchControl = new FormControl('');
   filteredAnimals$!: Observable<Animal[]>;
   animalSelected: Animal | null = null;
   
   private dialog = inject(MatDialog)
 
+  adoptions = signal<Adoption[]>([]);
+  loading   = signal(true);
+  error     = signal<string | null>(null);
+
   ngOnInit() {
-    this.filteredAnimals$ = this.searchControl.valueChanges.pipe(
-      startWith(''),
-      debounceTime(300), // Espera 300ms después de que el usuario deje de escribir
-      distinctUntilChanged(), // Solo emite si el valor cambió
-      switchMap((term: string | null) =>
-        this.searchInMock(term ?? ''))
-    );
+    this.adoptionService.getAll().subscribe({
+      next: (data: any) => { this.adoptions.set(data); this.loading.set(false); },
+      error: () => { this.error.set('Failed to load adoptions.'); this.loading.set(false); },
+    });
   }
 
   selectAnimal(animal: Animal) {
@@ -73,15 +70,11 @@ export class Adoptions implements OnInit {
       disableClose: true
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().subscribe((result: CreateAdoptionDto) => {
       if (result) {
+        console.log(result)
         // Save into animals or adoptions array
-        this.adoptions.push(result);
-
-        // or if it's really an adoption:
-        // this.adoptions.push(result);
-
-        console.log('New adoption added:', result);
+        this.adoptionService.create(result)
       }
     });
   }

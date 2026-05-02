@@ -67,28 +67,28 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   onGoogleLogin(): void {
-    // Clear any previous errors
-    this.errorSignal.set(null);
+    // // Clear any previous errors
+    // this.errorSignal.set(null);
 
-    // Console log for e2e testing
-    this.authService.loginWithGoogle().pipe(
-      takeUntil(this.destroy$)
-    ).subscribe({
-      next: (response) => {
-        if (response.success) {
-          // TODO: Navigate to dashboard or intended page
-        } else if (response.error) {
-          this.errorSignal.set(response.error);
-        }
-      },
-      error: (_error) => {
-        this.errorSignal.set({
-          type: 'server',
-          message: 'Error inesperado en la autenticación con Google.',
-          code: 'GOOGLE_UNEXPECTED_ERROR'
-        });
-      }
-    });
+    // // Console log for e2e testing
+    // this.authService.loginWithGoogle().pipe(
+    //   takeUntil(this.destroy$)
+    // ).subscribe({
+    //   next: (response) => {
+    //     if (response.success) {
+    //       // TODO: Navigate to dashboard or intended page
+    //     } else if (response.error) {
+    //       this.errorSignal.set(response.error);
+    //     }
+    //   },
+    //   error: (_error) => {
+    //     this.errorSignal.set({
+    //       type: 'server',
+    //       message: 'Error inesperado en la autenticación con Google.',
+    //       code: 'GOOGLE_UNEXPECTED_ERROR'
+    //     });
+    //   }
+    // });
   }
 
   // Helper method to check if currently loading
