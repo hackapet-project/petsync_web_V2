@@ -19,6 +19,9 @@ generate_component:
 generate_service:
 	docker compose run --rm front npx ng generate service ${i}
 
+generate_interceptor:
+	docker compose run --rm front npx ng generate interceptor ${i}
+
 #Django commands
 create_app:
 	docker compose run --rm back python ./manage.py startapp ${i}
