@@ -1,12 +1,11 @@
 import { Component, OnInit, ElementRef, ViewChild, inject, signal, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { Subject, takeUntil } from 'rxjs';
 import { AuthService, LoginCredentials } from '../../../core/services/auth/auth.service';
 import { LoadingService } from '../../../core/services/loading.service';
 import { LoginError } from '../../../core/services/error-handler.service';
-import { CustomValidators } from '../../../core/validators/custom-validators';
 import { Brand } from '../../../components/brand/brand';
 import { Router } from '@angular/router';
 import { FormGeneratorComponent } from '@app/components/form-generator/form-generator';
@@ -48,8 +47,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   // Computed loading state from service
   readonly loading = this.loadingService.loading;
 
-  constructor() { }
-
   ngOnInit(): void {
     // Focus management and accessibility setup
     setTimeout(() => {
@@ -60,10 +57,30 @@ export class LoginComponent implements OnInit, OnDestroy {
     }, 100);
   }
 
-  onSubmit(event: Event): void {
+  onSubmit(credentials: LoginCredentials): void {
     this.errorSignal.set(null);
 
-    this.router.navigate(['/dashboard'])
+    this.authService.login(credentials).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe({
+      next: (response) => {
+        if (response.success) {
+          this.router.navigate(['/dashboard']);
+          return;
+        }
+
+        if (response.error) {
+          this.errorSignal.set(response.error);
+        }
+      },
+      error: () => {
+        this.errorSignal.set({
+          type: 'server',
+          message: 'Unexpected authentication error.',
+          code: 'AUTH_UNEXPECTED_ERROR'
+        });
+      }
+    });
   }
 
   onGoogleLogin(): void {

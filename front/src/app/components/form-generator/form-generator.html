@@ -1,8 +1,8 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-generator">
   <div *ngFor="let field of config.fields" class="form-field">
     
-    <!-- Text, Email, Password, Number, Tel inputs -->
-    <fieldset *ngIf="field.type === 'text' || field.type === 'email' || field.type === 'password' || field.type === 'number' || field.type === 'tel'">
+    <!-- Text, Email, Password, Number, Tel, Date inputs -->
+    <fieldset *ngIf="field.type === 'text' || field.type === 'email' || field.type === 'password' || field.type === 'number' || field.type === 'tel' || field.type === 'date'">
       <label [for]="field.name">
         {{ field.label }}
         <span *ngIf="field.required" class="required">*</span>

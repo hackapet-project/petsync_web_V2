@@ -9,6 +9,6 @@ class LogoutView(APIView):
     def post(self, request):
         logout(request)
         response = Response({'success': True})
-        response.delete_cookie('access_token')
-        response.delete_cookie('refresh_token')  # if you have one
+        response.delete_cookie('session_token', path='/', samesite='Lax')
+        response.delete_cookie('refresh_token', path='/', samesite='Lax')
         return response

@@ -70,6 +70,18 @@ p {
   margin: .4em;
 }
 
+.login-error {
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 0.5rem;
+  color: #b91c1c;
+  font-size: 0.95rem;
+  margin: 1rem 0;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  text-wrap: balance;
+}
+
 .divider {
   width: 100%;
   display: flex;

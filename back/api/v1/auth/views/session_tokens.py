@@ -1,24 +1,19 @@
-from django.shortcuts import get_object_or_404
 from django.contrib.auth import authenticate
+from django.conf import settings
 
 from rest_framework.views import APIView #type: ignore
 from rest_framework.response import Response #type:ignore
 from rest_framework import status #type:ignore
 
 from api.utils.custom_reponses import get_responses, OK, BAD_REQUEST, UNAUTHORIZED
-from api.utils.repositories.user_repository import UserRepository
 from api.utils.auth.token_authenticator import TokenAuthenticator
 
-import sys
-
 responses = get_responses()
-user_repository = UserRepository()
 token_authenticator = TokenAuthenticator()
 
 class SessionTokens(APIView):
 
     def post(self, request):
-        # users = user_repository.get_all()
         body = request.data
         email = body.get('email')
         password = body.get('password')
@@ -28,13 +23,18 @@ class SessionTokens(APIView):
             
         user = authenticate(request, username=email, password=password)
 
-        # user = user_repository.authenticate(email=body.get('email'), password=body.get('password'))
-
         if user:
-            # print('==== Ey yo mama: USER FOUND ====', file=sys.stderr)
             session_token = token_authenticator.sign(user)
 
-            response = Response(status=status.HTTP_200_OK)
+            response = Response({
+                'success': True,
+                'user': {
+                    'id': user.user_id,
+                    'email': user.email,
+                    'name': user.name,
+                    'shelter': user.shelter.shelter_id if user.shelter else None,
+                }
+            }, status=status.HTTP_200_OK)
 
             response.set_cookie(
                 key='session_token',
@@ -43,6 +43,7 @@ class SessionTokens(APIView):
                 secure=False,
                 domain=None,
                 samesite='Lax',
+                path='/',
                 max_age=300
             )
 
@@ -53,10 +54,10 @@ class SessionTokens(APIView):
                 secure=False,
                 domain=None,
                 samesite='Lax',
+                path='/',
                 max_age=86400
             )
 
             return response
         else:
-            print('==== NO USER FOUND ====', file=sys.stderr)
             return responses[UNAUTHORIZED]({'message': 'Invalid credentials'})

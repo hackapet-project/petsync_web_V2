@@ -3,6 +3,13 @@
     <h3>Animales Recientes</h3>
     <a href="/animals">Ver todos</a>
   </header>
+  @if (loading) {
+    <p>Cargando animales...</p>
+  } @else if (error) {
+    <p>{{ error }}</p>
+  } @else if (paginatedAnimals.length === 0) {
+    <p>No hay animales registrados.</p>
+  } @else {
   <table>
     <thead>
       <tr>
@@ -28,6 +35,8 @@
       </tr>
     </tbody>
   </table>
+  }
+  @if (!loading && !error && paginatedAnimals.length > 0) {
   <nav>
     <button (click)="previousPage()" [disabled]="currentPage === 1" class="pagination-btn">
       Anterior
@@ -48,4 +57,5 @@
       Página {{ currentPage }} de {{ totalPages }}
     </span> -->
   </nav>
+  }
 </section>

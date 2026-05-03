@@ -8,7 +8,7 @@ export type AdoptionState =
 
 export interface Adoption {
   adoption_id: string;        // UUID
-  animal: number;
+  animal: string;
   responsable_id: string;   // ULID — matches User.user_id
   adoptant_name: string;
   adoptant_email: string;
@@ -19,10 +19,8 @@ export interface Adoption {
 }
 
 export interface CreateAdoptionDto {
-  animal: number;
-  responsable: number;
-  adoptant_name: string;
-  adoptant_email: string;
+  animal: string;
+  adoptant: string;
 }
 
 export interface UpdateAdoptionStateDto {

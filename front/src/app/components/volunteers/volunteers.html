@@ -1,0 +1,50 @@
+<section>
+  <header>
+    <div>
+      <mat-icon fontSet="material-symbols-outlined">search</mat-icon>
+      <input [formControl]="searchControl" type="text" placeholder="Buscar por nombre, email o refugio">
+    </div>
+  </header>
+
+  @if (loading()) {
+    <p>Cargando voluntarios...</p>
+  } @else if (error()) {
+    <p class="error">{{ error() }}</p>
+  } @else {
+    <article class="table-card">
+      <table>
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Refugio</th>
+            <th>Estado</th>
+            <th>Alta</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (volunteer of filteredVolunteers(); track volunteer.user_id) {
+            <tr>
+              <td>{{ volunteer.name }}</td>
+              <td>{{ volunteer.email }}</td>
+              <td>
+                <strong>{{ volunteer.shelter_name || 'Sin refugio' }}</strong>
+                <span>{{ volunteer.shelter || 'Sin ID' }}</span>
+              </td>
+              <td>
+                <span class="status-chip" [class.inactive]="!volunteer.is_active">
+                  {{ getStatusLabel(volunteer.is_active) }}
+                </span>
+              </td>
+              <td>{{ formatDate(volunteer.created_at) }}</td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="5" class="empty-state">No hay voluntarios para los filtros actuales.</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </article>
+  }
+</section>

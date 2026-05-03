@@ -24,7 +24,7 @@
           <option value="available">Disponible</option>
           <option value="other">Otro</option>
         </select>
-        <button>
+        <button type="button" (click)="openCreateAnimalModal()">
           <mat-icon fontSet="material-symbols-outlined">add_2</mat-icon>
           Animal
         </button>
@@ -32,8 +32,16 @@
    </header>
 
    <div>
-     @for (animal of animals; track $index) {
-       <animal-widget [animal]="animal"/>
-     }
+    @if (loading()) {
+      <p>Cargando animales...</p>
+    } @else if (error()) {
+      <p>{{ error() }}</p>
+    } @else {
+      @for (animal of animals(); track animal.id) {
+        <animal-widget [animal]="animal"/>
+      } @empty {
+        <p>No hay animales registrados.</p>
+      }
+    }
    </div>
 </section>

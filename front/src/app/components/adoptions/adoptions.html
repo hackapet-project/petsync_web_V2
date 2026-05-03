@@ -2,40 +2,62 @@
   <header>
     <div>
       <mat-icon fontSet="material-symbols-outlined">search</mat-icon>
-      <input id="search-animal" [formControl]="searchControl" type="text" placeholder="Buscar por adoptante o animal">
+      <input id="search-animal" [formControl]="searchControl" type="text" placeholder="Buscar por perro o usuario">
     </div>
     <nav>
-      <button (click)="newAdoption()">
-        <mat-icon fontSet="material-symbols-outlined">add_2</mat-icon>
-        Adopción
-      </button>
+      <select [formControl]="stateFilterControl">
+        <option value="all">Todos los estados</option>
+        <option value="in_review">En revisión</option>
+        <option value="approved">Aprobada</option>
+        <option value="initiated">Iniciada</option>
+        <option value="frozen">Pausada</option>
+        <option value="rejected">Rechazada</option>
+        <option value="completed">Completada</option>
+      </select>
     </nav>
   </header>
-  <article>
-     @if (loading()) {
-      <p>Loading...</p>
-    }
 
-    @if (error()) {
-      <p class="error">{{ error() }}</p>
-    }
-
-    @if (!loading() && !error()) {
-      <h1>HELLO MADAFAQUERS</h1>
-      <!-- <ul>
-        @for (adoption of adoptions(); track adoption.public_id) {
-          <li>{{ adoption.adoptant_name }} — {{ adoption.state }}</li>
-        } @empty {
-          <li>No adoptions found.</li>
-        }
-      </ul> -->
-    }
-  </article>
-  <!-- <div class="results" style="display: flex; flex-direction: column;" *ngIf="filteredAnimals$ | async as animals">
-    @for (animal of animals; track $index) {
-      <adoption [animal]="animal" />
-      } @empty {
-        <p>No animals found matching your search.</p>
-      }
-  </div> -->
+  @if (loading()) {
+    <p>Cargando adopciones...</p>
+  } @else if (error()) {
+    <p class="error">{{ error() }}</p>
+  } @else {
+    <article class="table-card">
+      <table>
+        <thead>
+          <tr>
+            <th>Perro</th>
+            <th>Usuario</th>
+            <th>Estado de adopción</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (adoption of rows(); track adoption.adoption_id) {
+            <tr>
+              <td>{{ adoption.animalName }}</td>
+              <td>
+                <strong>{{ adoption.userName }}</strong>
+                <span>{{ adoption.adoptant_email }}</span>
+              </td>
+              <td>
+                <span class="status-chip" [class]="'state-' + adoption.state">
+                  {{ getStateLabel(adoption.state) }}
+                </span>
+              </td>
+              <td>
+                <button type="button" (click)="openEditStateModal(adoption)">
+                  Editar estado
+                </button>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="4" class="empty-state">No hay adopciones para los filtros actuales.</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </article>
+  }
 </section>

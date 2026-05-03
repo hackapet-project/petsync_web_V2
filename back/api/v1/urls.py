@@ -5,4 +5,5 @@ urlpatterns = [
     path('auth/', include('api.v1.auth.urls')),
     path('shelters/', include('api.v1.shelters.urls')),
     path('adoptions/', include('api.v1.adoptions.urls')),
+    path('animals/', include('api.v1.animals.urls')),
 ]

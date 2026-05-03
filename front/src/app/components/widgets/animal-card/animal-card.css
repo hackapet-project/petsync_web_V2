@@ -34,5 +34,34 @@ section {
         color: black;
       }
     }
+
+    button,
+    a {
+      align-items: center;
+      border-radius: .5em;
+      box-sizing: border-box;
+      display: inline-flex;
+      justify-content: center;
+      margin-top: .5em;
+      min-height: 2.5em;
+      text-decoration: none;
+      width: 100%;
+    }
+
+    a {
+      border: 1px solid var(--dark-grey);
+      color: var(--dark-grey);
+    }
+
+    button {
+      background-color: var(--purple);
+      border: none;
+      color: white;
+      cursor: pointer;
+
+      &:hover {
+        background-color: var(--dark-purple);
+      }
+    }
   }
 }

@@ -11,13 +11,21 @@ export interface LoginCredentials {
   password: string;
 }
 
+export interface RegisterUserDto {
+  name: string;
+  email: string;
+  password: string;
+  confirm_password: string;
+  shelter?: string | null;
+}
+
 export interface AuthResponse {
   success: boolean;
-  token?: string;
   user?: {
     id: string;
     email: string;
     name: string;
+    shelter: string | null;
   },
   error?: LoginError;
 }
@@ -26,6 +34,16 @@ export interface User {
   id: string;
   email: string;
   name: string;
+  shelter: string | null;
+}
+
+export interface RegisterResponse {
+  user_id: string;
+  name: string;
+  email: string;
+  is_active: boolean;
+  created_at: string;
+  shelter: string | null;
 }
 
 @Injectable({
@@ -47,9 +65,8 @@ export class AuthService {
 
   login(credentials: LoginCredentials): Observable<AuthResponse> {
     this.loadingService.startLoading('Iniciando sesión...');
-    return this.http.post<AuthResponse>(`${this.base}/v1/login/`, credentials).pipe(
+    return this.http.post<AuthResponse>(`${this.base}/v1/auth/session_tokens/`, credentials).pipe(
       tap((response: AuthResponse) => {
-        localStorage.setItem('token', response.token!);
         this.userSignal.set(response.user ?? null);
         this.isAuthenticatedSignal.set(true);
         this.loadingService.stopLoading();
@@ -57,7 +74,17 @@ export class AuthService {
       catchError((e: HttpErrorResponse) => {
         const loginError = this.errorHandler.handleLoginError(e);
         this.loadingService.stopLoading();
-        return of({ success: false, error: loginError });HttpErrorResponse
+        return of({ success: false, error: loginError });
+      })
+    );
+  }
+
+  register(payload: RegisterUserDto): Observable<RegisterResponse> {
+    this.loadingService.startLoading('Creando usuario...');
+
+    return this.http.post<RegisterResponse>(`${this.base}/v1/users/`, payload).pipe(
+      finalize(() => {
+        this.loadingService.stopLoading();
       })
     );
   }
@@ -103,7 +130,7 @@ export class AuthService {
   logout(): Observable<void> {
     this.isLoggingOut = true;
 
-    return this.http.post<void>(`${this.base}/v1/logout/`, {}).pipe(
+    return this.http.post<void>(`${this.base}/v1/auth/logout/`, {}).pipe(
       finalize(() => {
         this.isLoggingOut = false;
         this.userSignal.set(null);
@@ -127,6 +154,6 @@ export class AuthService {
   }
 
   refreshToken(): Observable<void> {
-  return this.http.post<void>(`${this.base}/v1/token/refresh/`, {});
-}
+    return this.http.post<void>(`${this.base}/v1/auth/refresh/`, {});
+  }
 }

@@ -12,6 +12,12 @@
         [config]="loginConfig"
         (formSubmit)="onSubmit($event)">
       ></app-form-generator>
+
+      @if (error(); as loginError) {
+        <div class="login-error" role="alert" aria-live="polite">
+          {{ loginError.message }}
+        </div>
+      }
       
       <p><a href="#" class="forgot-link" tabindex="4">¿Olvidaste tu contraseña?</a></p>
       <div class="divider">

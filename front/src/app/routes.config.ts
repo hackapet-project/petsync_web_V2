@@ -4,6 +4,7 @@ import { Dashboard } from './components/dashboard/dashboard';
 import { Animals } from './components/animals/animals';
 import { AnimalDetail } from './components/animal-detail/animal-detail';
 import { Adoptions } from './components/adoptions/adoptions';
+import { Volunteers } from './components/volunteers/volunteers';
 
 export const PROTECTED_ROUTES: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -15,7 +16,7 @@ export const PROTECTED_ROUTES: Routes = [
   { path: 'animals', component: Animals, data: { title: 'Animales' } },
   { path: 'animals/:id', component: AnimalDetail, data: { title: 'Refupet' } },
   { path: 'adoptions', component: Adoptions, data: { title: 'Adopciones' } },
-  { path: 'volunteers', component: Animals, data: { title: 'Voluntarios' } },
+  { path: 'volunteers', component: Volunteers, data: { title: 'Voluntarios' } },
   { path: 'callendar', component: Animals, data: { title: 'Calendario' } },
   { path: 'settings', component: Animals, data: { title: 'Configuración' } },
 ];

@@ -13,6 +13,7 @@
     <p>Sexo: <span>{{ animal().gender}}</span> </p>
 
     <a [routerLink]="['/animals', animal().id]">Detalles</a>
+    <button type="button" (click)="openAdoptionModal()">Adopción</button>
     <!-- <p>{{ animal().breed}} </p> -->
   </article>
 </section>

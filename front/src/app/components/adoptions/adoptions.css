@@ -16,6 +16,7 @@ section {
     
     nav {
       display: flex;
+      gap: .8em;
     }
     
     button {
@@ -28,29 +29,7 @@ section {
     div {
       align-items: center;
       display: flex;
-      /* background-color: red; */
-      /* justify-content: space-around; */
       width: 100%;
-    }
-    
-    button {
-      align-items: center;
-      background-color: var(--purple);
-      border: none;
-      border-radius: .6em;
-      box-sizing: border-box;
-      color: white;
-      cursor: pointer;
-      display: inline-flex;
-      gap: .8em;
-      height: 3em;
-      justify-content: space-around;
-      padding: .2em .8em;
-      transition: all .3s;
-
-      &:hover {
-        background-color: var(--dark-purple);
-      }
     }
 
     input, select {
@@ -72,13 +51,105 @@ section {
     }
 
     select {
-      width: 8em;
+      min-width: 12em;
     }
   }
+}
 
-  div {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: .2em;
+.table-card {
+  background-color: white;
+  border: var(--border-style);
+  border-radius: 1em;
+  overflow: hidden;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+thead {
+  background-color: #f7f7fb;
+}
+
+th,
+td {
+  border-bottom: 1px solid #ececf4;
+  padding: 1rem;
+  text-align: left;
+  vertical-align: middle;
+}
+
+tbody tr:hover {
+  background-color: #fafafe;
+}
+
+td span {
+  color: var(--grey);
+  display: block;
+  font-size: .9rem;
+  margin-top: .2rem;
+}
+
+button {
+  align-items: center;
+  background-color: var(--purple);
+  border: none;
+  border-radius: .6em;
+  box-sizing: border-box;
+  color: white;
+  cursor: pointer;
+  display: inline-flex;
+  justify-content: center;
+  min-height: 2.75rem;
+  padding: .4rem .9rem;
+  transition: all .3s;
+
+  &:hover {
+    background-color: var(--dark-purple);
   }
+}
+
+.status-chip {
+  border-radius: 999px;
+  display: inline-flex;
+  font-size: .88rem;
+  font-weight: 600;
+  margin-top: 0;
+  padding: .35rem .7rem;
+}
+
+.state-initiated {
+  background-color: #e8eefc;
+  color: #3056d3;
+}
+
+.state-in_review {
+  background-color: #fff2d6;
+  color: #b26b00;
+}
+
+.state-approved {
+  background-color: #ddf7e7;
+  color: #18794e;
+}
+
+.state-frozen {
+  background-color: #eceafc;
+  color: #5b4dc7;
+}
+
+.state-completed {
+  background-color: #dff4f0;
+  color: #0f766e;
+}
+
+.state-rejected {
+  background-color: #fde5e5;
+  color: #b42318;
+}
+
+.empty-state {
+  color: var(--grey);
+  text-align: center;
 }

@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { Animal } from '../../../core/utils/animal_mocks';
+import { Animal } from '../../../core/services/animals/animals.model';
 
 interface Adoption {
   animal_id: string;

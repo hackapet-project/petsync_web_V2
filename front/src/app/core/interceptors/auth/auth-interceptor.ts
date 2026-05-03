@@ -18,9 +18,10 @@ export class AuthInterceptor implements HttpInterceptor {
 
   // URLs that should never trigger a refresh
   private readonly EXCLUDED_URLS = [
-    '/v1/login/',
-    '/v1/logout/',
-    '/v1/token/refresh/'
+    '/v1/auth/session_tokens/',
+    '/v1/auth/logout/',
+    '/v1/auth/refresh/',
+    '/v1/users/'
   ];
 
   intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {

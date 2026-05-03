@@ -1,7 +1,13 @@
-import { Component, input } from '@angular/core';
-import { Animal, animals } from '../../../core/utils/animal_mocks';
+import { Component, inject, input } from '@angular/core';
+import { Animal } from '../../../core/services/animals/animals.model';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { Modal } from '../modal/modal';
+import { buildAdoptionFormConfig } from '../../form-generator/forms_scaffolders/adoption';
+import { UsersService } from '@app/core/services/users/users';
+import { Adoptions } from '@app/core/services/adoptions/adoptions';
+import { CreateAdoptionDto } from '@app/core/services/adoptions/adoptions.model';
 
 @Component({
   selector: 'animal-widget',
@@ -13,6 +19,9 @@ import { RouterModule } from '@angular/router';
   styleUrl: './animal-card.css'
 })
 export class AnimalCard {
+  private readonly dialog = inject(MatDialog);
+  private readonly usersService = inject(UsersService);
+  private readonly adoptionsService = inject(Adoptions);
 
   // public animal = input<Animal>()
   animal = input.required<Animal>();
@@ -34,5 +43,25 @@ export class AnimalCard {
       }
       const index = Math.abs(hash) % this.colors.length;
       return this.colors[index];
+  }
+
+  openAdoptionModal(): void {
+    this.usersService.getAll().subscribe({
+      next: (users) => {
+        this.dialog.open(Modal, {
+          width: '600px',
+          disableClose: true,
+          data: {
+            title: `Crear adopción para ${this.animal().name}`,
+            config: buildAdoptionFormConfig(users),
+            submitAction: (result: Pick<CreateAdoptionDto, 'adoptant'>) =>
+              this.adoptionsService.create({
+                animal: this.animal().id,
+                adoptant: result.adoptant,
+              }),
+          },
+        });
+      },
+    });
   }
 }

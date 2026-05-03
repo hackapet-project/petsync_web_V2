@@ -1,6 +1,7 @@
 from rest_framework.permissions import AllowAny #type: ignore
 from rest_framework_simplejwt.tokens import RefreshToken #type: ignore
 from rest_framework_simplejwt.views import TokenRefreshView #type: ignore
+from django.conf import settings
 
 from api.utils.custom_reponses import get_responses, OK, UNAUTHORIZED
 
@@ -28,6 +29,7 @@ class RefreshSessionTokens(TokenRefreshView):
             httponly=True,
             samesite="Lax",
             secure=False,
+            path="/",
             max_age=300,
         )
         return response

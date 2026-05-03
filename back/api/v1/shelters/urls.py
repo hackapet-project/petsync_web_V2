@@ -1,7 +1,8 @@
 from django.urls import path, include #type: ignore
 
-from api.v1.shelters.views.shelters import Shelters
+from api.v1.shelters.views.shelters import ShelterDetail, Shelters
 
 urlpatterns = [
-  path('', Shelters.as_view(), name='Shelters list')
+  path('', Shelters.as_view(), name='Shelters list'),
+  path('<str:shelter_id>/', ShelterDetail.as_view(), name='Shelter detail'),
 ]
